@@ -1,0 +1,131 @@
+import { Play, ArrowRight, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+
+export function HeroSection() {
+  const [videoPlaying, setVideoPlaying] = useState(false);
+
+  return (
+    <section className="relative overflow-hidden">
+      {/* Background with gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-foreground via-foreground/95 to-foreground/90" />
+      
+      {/* Decorative elements */}
+      <div className="absolute top-0 right-0 w-1/2 h-full opacity-5">
+        <div className="absolute top-20 right-20 w-96 h-96 rounded-full bg-primary blur-3xl" />
+        <div className="absolute bottom-20 right-40 w-64 h-64 rounded-full bg-primary blur-2xl" />
+      </div>
+
+      <div className="container-wide relative z-10 py-20 lg:py-32">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Content */}
+          <div className="text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-6 opacity-0 animate-fade-up">
+              <Sparkles className="w-4 h-4" />
+              <span className="text-sm font-medium">Premium Car Care Products</span>
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-background leading-tight mb-6 opacity-0 animate-fade-up animation-delay-100">
+              Professional Detailing
+              <span className="block text-primary">Made Simple</span>
+            </h1>
+
+            <p className="text-lg sm:text-xl text-background/70 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed opacity-0 animate-fade-up animation-delay-200">
+              Premium car wash and detailing gear shipped directly to your door across Canada. Achieve showroom results from your own driveway.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start opacity-0 animate-fade-up animation-delay-300">
+              <Button variant="hero" size="xl" asChild>
+                <Link to="/shop">
+                  Shop Now
+                  <ArrowRight className="w-5 h-5 ml-1" />
+                </Link>
+              </Button>
+              <Button variant="hero-outline" size="xl" className="text-background border-background/20 hover:bg-background/10" asChild>
+                <Link to="/shop/new">
+                  New Arrivals
+                </Link>
+              </Button>
+            </div>
+
+            {/* Trust badges */}
+            <div className="mt-10 pt-8 border-t border-background/10 opacity-0 animate-fade-up animation-delay-400">
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-background/60 text-sm">
+                <div className="flex items-center gap-2">
+                  <div className="h-2 w-2 rounded-full bg-primary" />
+                  Free Shipping Over $75
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="h-2 w-2 rounded-full bg-primary" />
+                  100% Satisfaction
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="h-2 w-2 rounded-full bg-primary" />
+                  Canadian Owned
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Video/Image Area */}
+          <div className="relative opacity-0 animate-fade-up animation-delay-200">
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-foreground/50">
+              {/* Video placeholder with play button */}
+              {!videoPlaying ? (
+                <>
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-foreground/40" />
+                  <img
+                    src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&h=600&fit=crop"
+                    alt="Premium car being detailed with professional products"
+                    className="w-full h-full object-cover"
+                  />
+                  <button
+                    onClick={() => setVideoPlaying(true)}
+                    className="absolute inset-0 flex items-center justify-center group"
+                  >
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-primary rounded-full blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
+                      <div className="relative h-20 w-20 rounded-full bg-primary flex items-center justify-center shadow-glow transition-transform group-hover:scale-110">
+                        <Play className="h-8 w-8 text-primary-foreground fill-current ml-1" />
+                      </div>
+                    </div>
+                  </button>
+                  <div className="absolute bottom-4 left-4 right-4 bg-background/90 backdrop-blur rounded-lg p-3">
+                    <p className="text-sm font-medium text-foreground">Watch: Why Detail Guardz?</p>
+                    <p className="text-xs text-muted-foreground">See how easy professional detailing can be</p>
+                  </div>
+                </>
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center bg-foreground">
+                  <p className="text-background/60 text-center p-8">
+                    Video player would load here.<br />
+                    <button
+                      onClick={() => setVideoPlaying(false)}
+                      className="text-primary hover:underline mt-2"
+                    >
+                      Close preview
+                    </button>
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Floating stats card */}
+            <div className="absolute -bottom-6 -left-6 bg-background rounded-xl shadow-elevated p-4 hidden sm:block">
+              <div className="flex items-center gap-3">
+                <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <span className="text-2xl">⭐</span>
+                </div>
+                <div>
+                  <p className="font-bold text-foreground text-lg">4.9/5</p>
+                  <p className="text-xs text-muted-foreground">2,500+ Reviews</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
