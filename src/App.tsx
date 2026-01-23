@@ -19,7 +19,7 @@ import ProductDetail from "./pages/ProductDetailpage";
 import Checkout from "./pages/Checkout";
 import Settings from "./pages/SettingsPage";
 import MyOrders from "./pages/MyOrders";
-import OrderDetail from "./pages/orderdetailpage";
+
 
 const queryClient = new QueryClient();
 
@@ -45,7 +45,7 @@ const App = () => (
            <Route path="/checkout" element={<Checkout />} />
            <Route path="/Settings" element={<Settings />} />
            <Route path="/myorders" element={<MyOrders />} />
-           <Route path="/myorders/:orderId" element={<OrderDetail />} />
+           <Route path="/myorders/:orderId" element={<MyOrders />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
