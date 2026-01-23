@@ -8,8 +8,16 @@ export function HeroSection() {
 
   return (
     <section className="relative overflow-hidden">
-      {/* Background with gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-foreground via-foreground/95 to-foreground/90" />
+      {/* Background image with overlay */}
+      <div className="absolute inset-0">
+        <img
+          src="https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=1920&h=1080&fit=crop"
+          alt=""
+          className="w-full h-full object-cover"
+        />
+        {/* Dark overlay to ensure text is readable */}
+        <div className="absolute inset-0 bg-gradient-to-br from-foreground/90 via-foreground/85 to-foreground/80" />
+      </div>
       
       {/* Decorative elements */}
       <div className="absolute top-0 right-0 w-1/2 h-full opacity-5">
@@ -71,51 +79,69 @@ export function HeroSection() {
           {/* Video/Image Area */}
           <div className="relative opacity-0 animate-fade-up animation-delay-200">
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-foreground/50">
-              {/* Video placeholder with play button */}
-              {!videoPlaying ? (
-                <>
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-foreground/40" />
-                  <img
-                    src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&h=600&fit=crop"
-                    alt="Premium car being detailed with professional products"
-                    className="w-full h-full object-cover"
-                  />
-                  <button
-                    onClick={() => setVideoPlaying(true)}
-                    className="absolute inset-0 flex items-center justify-center group"
-                  >
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-primary rounded-full blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
-                      <div className="relative h-20 w-20 rounded-full bg-primary flex items-center justify-center shadow-glow transition-transform group-hover:scale-110">
-                        <Play className="h-8 w-8 text-primary-foreground fill-current ml-1" />
-                      </div>
-                    </div>
-                  </button>
-                  <div className="absolute bottom-4 left-4 right-4 bg-background/90 backdrop-blur rounded-lg p-3">
-                    <p className="text-sm font-medium text-foreground">Watch: Why Detail Guardz?</p>
-                    <p className="text-xs text-muted-foreground">See how easy professional detailing can be</p>
-                  </div>
-                </>
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center bg-foreground">
-                  <p className="text-background/60 text-center p-8">
-                    Video player would load here.<br />
-                    <button
-                      onClick={() => setVideoPlaying(false)}
-                      className="text-primary hover:underline mt-2"
-                    >
-                      Close preview
-                    </button>
-                  </p>
-                </div>
-              )}
-            </div>
+  {!videoPlaying ? (
+    <>
+      {/* Thumbnail */}
+      <img
+        src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&h=600&fit=crop"
+        className="w-full h-full object-cover"
+        alt="Video preview"
+      />
+
+      {/* Play Button */}
+      <button
+        onClick={() => setVideoPlaying(true)}
+        className="absolute inset-0 flex items-center justify-center group"
+      >
+        <div className="relative">
+          <div className="absolute inset-0 bg-primary rounded-full blur-xl opacity-50 group-hover:opacity-80 transition-opacity" />
+          <div className="relative h-20 w-20 rounded-full bg-primary flex items-center justify-center shadow-glow group-hover:scale-110 transition-transform">
+            <Play className="h-8 w-8 text-primary-foreground ml-1" />
+          </div>
+        </div>
+      </button>
+    </>
+  ) : (
+    <>
+      {/* ================= OPTION 1: LOCAL VIDEO ================= */}
+      {/* Uncomment this if you want local video */}
+      {/*
+      <video
+        src={v}
+        autoPlay
+        controls
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      */}
+
+      {/* ================= OPTION 2: YOUTUBE VIDEO ================= */}
+     <iframe
+  className="absolute inset-0 w-full h-full"
+  src="https://www.youtube.com/embed/6_65LmVJBYk?si=GIW14sJ7uXwHYG9l?autoplay=1&rel=0"
+  title="YouTube video"
+  frameBorder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+/>
+
+
+      {/* Close Button */}
+      <button
+        onClick={() => setVideoPlaying(false)}
+        className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 rounded-lg text-sm hover:bg-black"
+      >
+        ✕ Close
+      </button>
+    </>
+  )}
+</div>
+
 
             {/* Floating stats card */}
-            <div className="absolute -bottom-6 -left-6 bg-background rounded-xl shadow-elevated p-4 hidden sm:block">
+            <div className="absolute -bottom-6 -left-6 bg-background rounded-xl shadow-elevated p-1 hidden sm:block">
               <div className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <span className="text-2xl">⭐</span>
+                <div className="h-5 w-5 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <span className="text-1xl">⭐</span>
                 </div>
                 <div>
                   <p className="font-bold text-foreground text-lg">4.9/5</p>

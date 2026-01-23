@@ -29,7 +29,7 @@ export function CtaSection() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Button variant="hero" size="lg" asChild>
-                  <Link to="/shop">
+                  <Link to="/products">
                     Start Shopping
                     <ArrowRight className="w-5 h-5 ml-1" />
                   </Link>

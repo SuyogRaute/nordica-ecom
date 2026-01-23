@@ -6,42 +6,42 @@ const categories = [
     name: "Detailing Accessories",
     description: "Wash mitts, brushes, applicators & tools",
     image: "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=600&h=400&fit=crop",
-    href: "/shop/accessories",
+    href: "/products?category=accessories",
     productCount: 45,
   },
   {
     name: "Liquids & Chemicals",
     description: "Soaps, waxes, sealants & coatings",
     image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop",
-    href: "/shop/liquids",
+    href: "/products?category=liquids",
     productCount: 62,
   },
   {
     name: "Microfiber",
     description: "Premium towels, cloths & pads",
     image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop",
-    href: "/shop/microfiber",
+    href: "/products?category=microfiber",
     productCount: 28,
   },
   {
     name: "Bundles & Kits",
     description: "Complete detailing packages",
     image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=600&h=400&fit=crop",
-    href: "/shop/bundles",
+    href: "/products?category=bundles",
     productCount: 15,
   },
   {
     name: "Apparel & Merch",
     description: "Show your Detail Guardz pride",
     image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=400&fit=crop",
-    href: "/shop/apparel",
+    href: "/products?category=apparel",
     productCount: 20,
   },
   {
     name: "New Arrivals",
     description: "Latest products just added",
     image: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&h=400&fit=crop",
-    href: "/shop/new",
+    href: "/products?category=new",
     productCount: 12,
     featured: true,
   },
@@ -61,7 +61,7 @@ export function CategoriesSection() {
             </p>
           </div>
           <Link
-            to="/shop"
+            to="/products"
             className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all"
           >
             View All Products

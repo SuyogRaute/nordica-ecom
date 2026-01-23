@@ -20,25 +20,192 @@ const About = () => {
         <Header />
         <main className="flex-1">
           {/* Hero */}
-          <section className="relative py-20 lg:py-32 bg-gradient-to-br from-foreground via-foreground/95 to-foreground/90">
-            <div className="container-wide relative z-10">
-              <nav className="flex items-center gap-2 text-sm text-background/60 mb-8">
-                <Link to="/" className="hover:text-background">Home</Link>
-                <span>/</span>
-                <span className="text-background">About Us</span>
-              </nav>
-              <div className="max-w-3xl">
-                <h1 className="text-4xl lg:text-5xl font-bold text-background mb-6">
-                  Passionate About Cars.<br />
-                  <span className="text-primary">Obsessed With Quality.</span>
-                </h1>
-                <p className="text-xl text-background/70 leading-relaxed">
-                  Detail Guardz was born from a simple idea: every car enthusiast deserves access to professional-grade detailing products without the professional price tag.
-                </p>
-              </div>
-            </div>
-          </section>
+        <section className="relative py-6 lg:py-10 overflow-hidden bg-gradient-to-br from-teal-950 via-slate-900 to-teal-900">
 
+
+
+
+  {/* Animated gradient mesh background */}
+  <div className="absolute inset-0 overflow-hidden">
+    {/* Large animated orbs with professional colors */}
+    <div className="absolute top-20 right-0 w-96 h-96 bg-gradient-to-br from-emerald-600/20 via-teal-600/15 to-transparent rounded-full blur-3xl animate-pulse"></div>
+    <div className="absolute bottom-0 left-0 w-72 h-72 bg-gradient-to-tr from-slate-600/20 via-slate-500/15 to-transparent rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+    <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-gradient-to-br from-slate-700/15 to-transparent rounded-full blur-2xl"></div>
+    
+    {/* Floating particles - subtle white/gray */}
+    <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-white/40 rounded-full animate-bounce" style={{animationDuration: '3s', animationDelay: '0s'}}></div>
+    <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-emerald-400/60 rounded-full animate-bounce" style={{animationDuration: '4s', animationDelay: '1s'}}></div>
+    <div className="absolute bottom-1/4 left-1/2 w-2.5 h-2.5 bg-slate-300/40 rounded-full animate-bounce" style={{animationDuration: '5s', animationDelay: '2s'}}></div>
+    <div className="absolute top-2/3 right-1/4 w-1 h-1 bg-white/30 rounded-full animate-bounce" style={{animationDuration: '3.5s', animationDelay: '0.5s'}}></div>
+    
+    {/* Animated grid pattern */}
+    <div className="absolute inset-0 opacity-[0.02]" style={{
+      backgroundImage: 'linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)',
+      backgroundSize: '60px 60px'
+    }}></div>
+  </div>
+
+  {/* Diagonal accent lines with professional gradient */}
+  <div className="absolute inset-0 opacity-10">
+    <div className="absolute top-0 right-0 w-1 h-full bg-gradient-to-b from-emerald-500 via-emerald-600/50 to-transparent transform rotate-12 origin-top"></div>
+    <div className="absolute top-0 right-32 w-0.5 h-full bg-gradient-to-b from-slate-400 via-slate-500/50 to-transparent transform rotate-12 origin-top"></div>
+    <div className="absolute top-0 left-20 w-0.5 h-full bg-gradient-to-b from-slate-500 via-slate-600/30 to-transparent transform -rotate-12 origin-top"></div>
+  </div>
+
+  {/* Animated shine effect */}
+  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/3 to-transparent transform -skew-x-12 animate-shimmer"></div>
+  </div>
+
+  <div className="container-wide relative z-10">
+    {/* Breadcrumb navigation */}
+    <nav className="flex items-center gap-2 text-sm text-slate-400 mb-6 group">
+      <Link 
+        to="/" 
+        className="hover:text-emerald-400 transition-all duration-300 flex items-center gap-1 hover:gap-2"
+      >
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+        Home
+      </Link>
+      <span className="text-slate-500">/</span>
+      <span className="text-white font-medium">About Us</span>
+    </nav>
+
+    {/* Main content with grid layout */}
+    <div className="grid lg:grid-cols-12 gap-8 items-center">
+      <div className="lg:col-span-7">
+        {/* Professional accent badge with subtle glow */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-100 text-sm font-medium mb-6 backdrop-blur-sm shadow-lg shadow-emerald-500/10 hover:shadow-emerald-500/20 transition-all duration-300">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          Est. Since 2004
+        </div>
+
+        <h1 className="text-5xl lg:text-7xl font-bold text-white mb-8 leading-tight">
+          Passionate About Cars.
+          <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 inline-block mt-2 relative">
+            Obsessed With Quality.
+            {/* Professional underline with subtle gradient */}
+            {/* <svg className="absolute -bottom-2 left-0 w-full" height="12" viewBox="0 0 300 12" fill="none">
+              <path d="M2 10C50 5 100 2 150 5C200 8 250 7 298 10" stroke="url(#gradient)" strokeWidth="3" strokeLinecap="round"/>
+              <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#10b981" />
+                  <stop offset="50%" stopColor="#14b8a6" />
+                  <stop offset="100%" stopColor="#10b981" />
+                </linearGradient>
+              </defs>
+            </svg> */}
+          </span>
+        </h1>
+        
+        <p className="text-xl lg:text-2xl text-slate-300 leading-relaxed mb-8 max-w-2xl">
+          Detail Guardz was born from a simple idea: every car enthusiast deserves access to professional-grade detailing products without the professional price tag.
+        </p>
+
+        {/* Enhanced stats row with professional styling */}
+        <div className="flex flex-wrap gap-8 pt-6 border-t border-slate-700/50">
+          <div className="group flex flex-col relative">
+            <div className="absolute inset-0 bg-emerald-500/10 rounded-lg blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <span className="text-4xl font-bold text-emerald-400 mb-1 relative">10K+</span>
+            <span className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors relative">Happy Customers</span>
+          </div>
+          <div className="group flex flex-col relative">
+            <div className="absolute inset-0 bg-emerald-500/10 rounded-lg blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <span className="text-4xl font-bold text-emerald-400 mb-1 relative">50+</span>
+            <span className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors relative">Premium Products</span>
+          </div>
+          <div className="group flex flex-col relative">
+            <div className="absolute inset-0 bg-emerald-500/10 rounded-lg blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <span className="text-4xl font-bold text-emerald-400 mb-1 relative">100%</span>
+            <span className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors relative">Quality Guaranteed</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Professional visual element on the right with 4 cards */}
+      <div className="lg:col-span-5 relative hidden lg:block">
+        <div className="relative w-full h-[500px]">
+          {/* Card 1 - Premium Quality */}
+          <div className="absolute top-0 right-0 w-64 h-40 bg-slate-800/60 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6 transform rotate-6 hover:rotate-3 hover:scale-105 transition-all duration-500 shadow-2xl shadow-black/20 hover:shadow-emerald-500/10 group">
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="flex items-center gap-3 mb-3 relative">
+              <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <svg className="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <span className="text-white font-semibold">Premium Quality</span>
+            </div>
+            <p className="text-slate-400 text-sm relative">Professional-grade products for enthusiasts</p>
+          </div>
+
+          {/* Card 2 - Fair Pricing */}
+          <div className="absolute bottom-0 left-0 w-64 h-40 bg-slate-800/60 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6 transform -rotate-6 hover:-rotate-3 hover:scale-105 transition-all duration-500 shadow-2xl shadow-black/20 hover:shadow-emerald-500/10 group">
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="flex items-center gap-3 mb-3 relative">
+              <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <svg className="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                </svg>
+              </div>
+              <span className="text-white font-semibold">Fair Pricing</span>
+            </div>
+            <p className="text-slate-400 text-sm relative">Quality without the premium markup</p>
+          </div>
+
+          {/* Card 3 - Fast Shipping */}
+          <div className="absolute top-1/2 right-8 -translate-y-1/2 w-56 h-36 bg-slate-800/60 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-5 transform rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-500 shadow-2xl shadow-black/20 hover:shadow-emerald-500/10 group">
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="flex items-center gap-3 mb-2 relative">
+              <div className="w-9 h-9 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <span className="text-white font-semibold text-sm">Fast Shipping</span>
+            </div>
+            <p className="text-slate-400 text-xs relative">Quick delivery to your doorstep</p>
+          </div>
+
+          {/* Card 4 - Expert Support */}
+          <div className="absolute top-32 left-4 w-52 h-32 bg-slate-800/60 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-4 transform -rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-500 shadow-2xl shadow-black/20 hover:shadow-emerald-500/10 group">
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="flex items-center gap-2 mb-2 relative">
+              <div className="w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              </div>
+              <span className="text-white font-semibold text-sm">Expert Support</span>
+            </div>
+            <p className="text-slate-400 text-xs relative">Always here to help you shine</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style >{`
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%) skewX(-12deg);
+    }
+    100% {
+      transform: translateX(200%) skewX(-12deg);
+    }
+  }
+  
+  .animate-shimmer {
+    animation: shimmer 8s infinite;
+  }
+`}</style>
           {/* Story */}
           <section className="py-16 lg:py-24">
             <div className="container-wide">
