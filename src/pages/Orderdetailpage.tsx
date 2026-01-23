@@ -458,7 +458,7 @@ const OrderDetail = () => {
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Order Summary */}
-              <Card className="border-slate-200 shadow-lg overflow-hidden sticky top-24">
+              <Card className="border-slate-200 shadow-lg overflow-hidden  top-24">
                 <CardHeader className="bg-gradient-to-r from-slate-50 to-indigo-50/30 border-b border-slate-200">
                   <CardTitle className="text-xl font-display">Order Summary</CardTitle>
                 </CardHeader>
