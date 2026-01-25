@@ -183,7 +183,7 @@ export const Header = () => {
 
                   {/* Quick Links Mobile */}
                   <div className="pt-4 mt-4 border-t border-border space-y-2">
-                    <Link to="/orders" className="block py-2 text-sm text-foreground hover:text-primary transition-colors">
+                    <Link to="/myorders" className="block py-2 text-sm text-foreground hover:text-primary transition-colors">
                       My Orders
                     </Link>
                     <Link to="/wishlist" className="block py-2 text-sm text-foreground hover:text-primary transition-colors">

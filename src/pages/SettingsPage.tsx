@@ -13,7 +13,9 @@ import {
   Heart,
   LogOut,
   Save,
-  ChevronRight
+  ChevronRight,
+  Menu,
+  X
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -110,8 +112,8 @@ const Settings = () => {
           )}
 
           <div className="grid lg:grid-cols-[280px_1fr] gap-8">
-            {/* Sidebar Navigation */}
-            <aside className="space-y-2">
+            {/* Desktop Sidebar Navigation - Hidden on mobile, shown on lg and above */}
+            <aside className="hidden lg:block space-y-2">
               <Link 
                 to="/settings" 
                 className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900 text-white shadow-lg shadow-slate-900/20"
@@ -473,6 +475,44 @@ const Settings = () => {
                   </div>
                 </CardContent>
               </Card>
+
+              {/* Mobile Sidebar Navigation - Shown after Newsletter section on mobile */}
+              <div className="lg:hidden">
+  <Card className="border-slate-200 shadow-lg shadow-slate-900/5">
+    <CardContent className="pt-6 space-y-2">
+      <Link 
+        to="/myorders" 
+        className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 transition-all duration-300 group border border-slate-200"
+      >
+        <Package className="w-5 h-5 text-slate-600 group-hover:text-slate-900" />
+        <span className="text-slate-700 group-hover:text-slate-900 font-medium">My Orders</span>
+      </Link>
+
+      <Link 
+        to="/wishlist" 
+        className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 transition-all duration-300 group border border-slate-200"
+      >
+        <Heart className="w-5 h-5 text-slate-600 group-hover:text-slate-900" />
+        <span className="text-slate-700 group-hover:text-slate-900 font-medium">Wishlist</span>
+      </Link>
+
+      <Link 
+        to="/security" 
+        className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 transition-all duration-300 group border border-slate-200"
+      >
+        <Lock className="w-5 h-5 text-slate-600 group-hover:text-slate-900" />
+        <span className="text-slate-700 group-hover:text-slate-900 font-medium">Security</span>
+      </Link>
+
+      <div className="pt-4 mt-4 border-t border-slate-200">
+        <button className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 hover:text-red-600 transition-all duration-300 group w-full border border-slate-200">
+          <LogOut className="w-5 h-5" />
+          <span className="font-medium">Sign Out</span>
+        </button>
+      </div>
+    </CardContent>
+  </Card>
+</div>
             </div>
           </div>
         </div>
