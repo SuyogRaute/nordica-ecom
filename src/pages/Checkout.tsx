@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CreditCard, Truck, Shield, Check } from 'lucide-react';
+import { CreditCard, Truck, Shield, Check, Edit2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -16,6 +16,21 @@ const Checkout = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [shippingMethod, setShippingMethod] = useState('standard');
 
+  // Edit states for each section
+  const [editingContact, setEditingContact] = useState(true);
+  const [editingShipping, setEditingShipping] = useState(true);
+  const [editingPayment, setEditingPayment] = useState(true);
+
+  // Form data states
+  const [contactData, setContactData] = useState({ email: '', phone: '' });
+  const [shippingData, setShippingData] = useState({
+    firstName: '', lastName: '', address: '', apartment: '',
+    city: '', state: '', zip: '', country: currency === 'USD' ? 'United States' : 'Canada'
+  });
+  const [paymentData, setPaymentData] = useState({
+    cardName: '', cardNumber: '', expiry: '', cvv: ''
+  });
+
   const shippingRates = {
     standard: currency === 'USD' ? 9.99 : 14.99,
     express: currency === 'USD' ? 19.99 : 29.99,
@@ -23,7 +38,7 @@ const Checkout = () => {
   };
 
   const shipping = subtotal >= 99 && shippingMethod === 'standard' ? 0 : shippingRates[shippingMethod as keyof typeof shippingRates];
-  const tax = (subtotal + shipping) * 0.13; // 13% tax estimate
+  const tax = (subtotal + shipping) * 0.13;
   const total = subtotal + shipping + tax;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,6 +51,24 @@ const Checkout = () => {
     clearCart();
     navigate('/checkout/success');
   };
+
+  const handleContactUpdate = () => {
+    setEditingContact(false);
+  };
+
+  const handleShippingUpdate = () => {
+    setEditingShipping(false);
+  };
+
+  const handlePaymentUpdate = () => {
+    setEditingPayment(false);
+  };
+
+  const isContactComplete = contactData.email && contactData.phone;
+  const isShippingComplete = shippingData.firstName && shippingData.lastName && 
+    shippingData.address && shippingData.city && shippingData.state && shippingData.zip;
+  const isPaymentComplete = paymentData.cardName && paymentData.cardNumber && 
+    paymentData.expiry && paymentData.cvv;
 
   if (items.length === 0) {
     navigate('/cart');
@@ -55,72 +88,215 @@ const Checkout = () => {
               {/* Form Sections */}
               <div className="lg:col-span-2 space-y-8">
                 {/* Contact Information */}
-                <div className="bg-card border border-border rounded-lg p-6">
-                  <h2 className="font-display text-xl mb-6 text-foreground">
-                    CONTACT INFORMATION
-                  </h2>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="email">Email</Label>
-                      <Input id="email" type="email" required className="mt-1 bg-secondary border-border" />
-                    </div>
-                    <div>
-                      <Label htmlFor="phone">Phone</Label>
-                      <Input id="phone" type="tel" required className="mt-1 bg-secondary border-border" />
-                    </div>
+                <div className="bg-card border border-border rounded-lg p-4 sm:p-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="font-display text-lg sm:text-xl text-foreground">
+                      CONTACT INFORMATION
+                    </h2>
+                    {isContactComplete && !editingContact && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setEditingContact(true)}
+                        className="flex items-center gap-2"
+                      >
+                        <Edit2 className="h-4 w-4" />
+                        <span className="hidden sm:inline">Update</span>
+                      </Button>
+                    )}
                   </div>
+
+                  {editingContact ? (
+                    <div className="space-y-4">
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="email">Email</Label>
+                          <Input 
+                            id="email" 
+                            type="email" 
+                            required 
+                            value={contactData.email}
+                            onChange={(e) => setContactData({...contactData, email: e.target.value})}
+                            className="mt-1 bg-secondary border-border" 
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="phone">Phone</Label>
+                          <Input 
+                            id="phone" 
+                            type="tel" 
+                            required 
+                            value={contactData.phone}
+                            onChange={(e) => setContactData({...contactData, phone: e.target.value})}
+                            className="mt-1 bg-secondary border-border" 
+                          />
+                        </div>
+                      </div>
+                      {isContactComplete && (
+                        <Button
+                          type="button"
+                          onClick={handleContactUpdate}
+                          className="w-full sm:w-auto"
+                        >
+                          <Check className="h-4 w-4 mr-2" />
+                          Save Contact Info
+                        </Button>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="bg-secondary/50 rounded-lg p-4 space-y-2">
+                      <p className="text-sm text-foreground">
+                        <span className="font-medium">Email:</span> {contactData.email}
+                      </p>
+                      <p className="text-sm text-foreground">
+                        <span className="font-medium">Phone:</span> {contactData.phone}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Shipping Address */}
-                <div className="bg-card border border-border rounded-lg p-6">
-                  <h2 className="font-display text-xl mb-6 text-foreground flex items-center gap-2">
-                    <Truck className="h-5 w-5 text-primary" />
-                    SHIPPING ADDRESS
-                  </h2>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="firstName">First Name</Label>
-                      <Input id="firstName" required className="mt-1 bg-secondary border-border" />
-                    </div>
-                    <div>
-                      <Label htmlFor="lastName">Last Name</Label>
-                      <Input id="lastName" required className="mt-1 bg-secondary border-border" />
-                    </div>
-                    <div className="sm:col-span-2">
-                      <Label htmlFor="address">Address</Label>
-                      <Input id="address" required className="mt-1 bg-secondary border-border" />
-                    </div>
-                    <div className="sm:col-span-2">
-                      <Label htmlFor="apartment">Apartment, Suite, etc. (optional)</Label>
-                      <Input id="apartment" className="mt-1 bg-secondary border-border" />
-                    </div>
-                    <div>
-                      <Label htmlFor="city">City</Label>
-                      <Input id="city" required className="mt-1 bg-secondary border-border" />
-                    </div>
-                    <div>
-                      <Label htmlFor="state">State/Province</Label>
-                      <Input id="state" required className="mt-1 bg-secondary border-border" />
-                    </div>
-                    <div>
-                      <Label htmlFor="zip">ZIP/Postal Code</Label>
-                      <Input id="zip" required className="mt-1 bg-secondary border-border" />
-                    </div>
-                    <div>
-                      <Label htmlFor="country">Country</Label>
-                      <Input id="country" defaultValue={currency === 'USD' ? 'United States' : 'Canada'} required className="mt-1 bg-secondary border-border" />
-                    </div>
+                <div className="bg-card border border-border rounded-lg p-4 sm:p-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="font-display text-lg sm:text-xl text-foreground flex items-center gap-2">
+                      <Truck className="h-5 w-5 text-primary" />
+                      <span className="hidden sm:inline">SHIPPING ADDRESS</span>
+                      <span className="sm:hidden">SHIPPING</span>
+                    </h2>
+                    {isShippingComplete && !editingShipping && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setEditingShipping(true)}
+                        className="flex items-center gap-2"
+                      >
+                        <Edit2 className="h-4 w-4" />
+                        <span className="hidden sm:inline">Update</span>
+                      </Button>
+                    )}
                   </div>
+
+                  {editingShipping ? (
+                    <div className="space-y-4">
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="firstName">First Name</Label>
+                          <Input 
+                            id="firstName" 
+                            required 
+                            value={shippingData.firstName}
+                            onChange={(e) => setShippingData({...shippingData, firstName: e.target.value})}
+                            className="mt-1 bg-secondary border-border" 
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="lastName">Last Name</Label>
+                          <Input 
+                            id="lastName" 
+                            required 
+                            value={shippingData.lastName}
+                            onChange={(e) => setShippingData({...shippingData, lastName: e.target.value})}
+                            className="mt-1 bg-secondary border-border" 
+                          />
+                        </div>
+                        <div className="sm:col-span-2">
+                          <Label htmlFor="address">Address</Label>
+                          <Input 
+                            id="address" 
+                            required 
+                            value={shippingData.address}
+                            onChange={(e) => setShippingData({...shippingData, address: e.target.value})}
+                            className="mt-1 bg-secondary border-border" 
+                          />
+                        </div>
+                        <div className="sm:col-span-2">
+                          <Label htmlFor="apartment">Apartment, Suite, etc. (optional)</Label>
+                          <Input 
+                            id="apartment" 
+                            value={shippingData.apartment}
+                            onChange={(e) => setShippingData({...shippingData, apartment: e.target.value})}
+                            className="mt-1 bg-secondary border-border" 
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="city">City</Label>
+                          <Input 
+                            id="city" 
+                            required 
+                            value={shippingData.city}
+                            onChange={(e) => setShippingData({...shippingData, city: e.target.value})}
+                            className="mt-1 bg-secondary border-border" 
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="state">State/Province</Label>
+                          <Input 
+                            id="state" 
+                            required 
+                            value={shippingData.state}
+                            onChange={(e) => setShippingData({...shippingData, state: e.target.value})}
+                            className="mt-1 bg-secondary border-border" 
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="zip">ZIP/Postal Code</Label>
+                          <Input 
+                            id="zip" 
+                            required 
+                            value={shippingData.zip}
+                            onChange={(e) => setShippingData({...shippingData, zip: e.target.value})}
+                            className="mt-1 bg-secondary border-border" 
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="country">Country</Label>
+                          <Input 
+                            id="country" 
+                            value={shippingData.country}
+                            onChange={(e) => setShippingData({...shippingData, country: e.target.value})}
+                            required 
+                            className="mt-1 bg-secondary border-border" 
+                          />
+                        </div>
+                      </div>
+                      {isShippingComplete && (
+                        <Button
+                          type="button"
+                          onClick={handleShippingUpdate}
+                          className="w-full sm:w-auto"
+                        >
+                          <Check className="h-4 w-4 mr-2" />
+                          Save Shipping Address
+                        </Button>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="bg-secondary/50 rounded-lg p-4 space-y-1">
+                      <p className="text-sm font-medium text-foreground">
+                        {shippingData.firstName} {shippingData.lastName}
+                      </p>
+                      <p className="text-sm text-foreground">{shippingData.address}</p>
+                      {shippingData.apartment && (
+                        <p className="text-sm text-foreground">{shippingData.apartment}</p>
+                      )}
+                      <p className="text-sm text-foreground">
+                        {shippingData.city}, {shippingData.state} {shippingData.zip}
+                      </p>
+                      <p className="text-sm text-foreground">{shippingData.country}</p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Shipping Method */}
-                <div className="bg-card border border-border rounded-lg p-6">
-                  <h2 className="font-display text-xl mb-6 text-foreground">
+                <div className="bg-card border border-border rounded-lg p-4 sm:p-6">
+                  <h2 className="font-display text-lg sm:text-xl mb-6 text-foreground">
                     SHIPPING METHOD
                   </h2>
                   <RadioGroup value={shippingMethod} onValueChange={setShippingMethod}>
                     <div className="space-y-3">
-                      <label className={`flex items-center justify-between p-4 border rounded-lg cursor-pointer transition-colors ${shippingMethod === 'standard' ? 'border-primary bg-primary/5' : 'border-border'}`}>
+                      <label className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg cursor-pointer transition-colors gap-3 ${shippingMethod === 'standard' ? 'border-primary bg-primary/5' : 'border-border'}`}>
                         <div className="flex items-center gap-3">
                           <RadioGroupItem value="standard" id="standard" />
                           <div>
@@ -128,12 +304,12 @@ const Checkout = () => {
                             <p className="text-sm text-muted-foreground">5-7 business days</p>
                           </div>
                         </div>
-                        <span className="font-medium text-foreground">
+                        <span className="font-medium text-foreground ml-8 sm:ml-0">
                           {subtotal >= 99 ? 'FREE' : formatPrice(shippingRates.standard)}
                         </span>
                       </label>
 
-                      <label className={`flex items-center justify-between p-4 border rounded-lg cursor-pointer transition-colors ${shippingMethod === 'express' ? 'border-primary bg-primary/5' : 'border-border'}`}>
+                      <label className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg cursor-pointer transition-colors gap-3 ${shippingMethod === 'express' ? 'border-primary bg-primary/5' : 'border-border'}`}>
                         <div className="flex items-center gap-3">
                           <RadioGroupItem value="express" id="express" />
                           <div>
@@ -141,10 +317,10 @@ const Checkout = () => {
                             <p className="text-sm text-muted-foreground">2-3 business days</p>
                           </div>
                         </div>
-                        <span className="font-medium text-foreground">{formatPrice(shippingRates.express)}</span>
+                        <span className="font-medium text-foreground ml-8 sm:ml-0">{formatPrice(shippingRates.express)}</span>
                       </label>
 
-                      <label className={`flex items-center justify-between p-4 border rounded-lg cursor-pointer transition-colors ${shippingMethod === 'priority' ? 'border-primary bg-primary/5' : 'border-border'}`}>
+                      <label className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg cursor-pointer transition-colors gap-3 ${shippingMethod === 'priority' ? 'border-primary bg-primary/5' : 'border-border'}`}>
                         <div className="flex items-center gap-3">
                           <RadioGroupItem value="priority" id="priority" />
                           <div>
@@ -152,45 +328,112 @@ const Checkout = () => {
                             <p className="text-sm text-muted-foreground">1-2 business days</p>
                           </div>
                         </div>
-                        <span className="font-medium text-foreground">{formatPrice(shippingRates.priority)}</span>
+                        <span className="font-medium text-foreground ml-8 sm:ml-0">{formatPrice(shippingRates.priority)}</span>
                       </label>
                     </div>
                   </RadioGroup>
                 </div>
 
                 {/* Payment */}
-                <div className="bg-card border border-border rounded-lg p-6">
-                  <h2 className="font-display text-xl mb-6 text-foreground flex items-center gap-2">
-                    <CreditCard className="h-5 w-5 text-primary" />
-                    PAYMENT INFORMATION
-                  </h2>
-                  <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="cardName">Name on Card</Label>
-                      <Input id="cardName" required className="mt-1 bg-secondary border-border" />
-                    </div>
-                    <div>
-                      <Label htmlFor="cardNumber">Card Number</Label>
-                      <Input id="cardNumber" placeholder="1234 5678 9012 3456" required className="mt-1 bg-secondary border-border" />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="expiry">Expiry Date</Label>
-                        <Input id="expiry" placeholder="MM/YY" required className="mt-1 bg-secondary border-border" />
-                      </div>
-                      <div>
-                        <Label htmlFor="cvv">CVV</Label>
-                        <Input id="cvv" placeholder="123" required className="mt-1 bg-secondary border-border" />
-                      </div>
-                    </div>
+                <div className="bg-card border border-border rounded-lg p-4 sm:p-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="font-display text-lg sm:text-xl text-foreground flex items-center gap-2">
+                      <CreditCard className="h-5 w-5 text-primary" />
+                      <span className="hidden sm:inline">PAYMENT INFORMATION</span>
+                      <span className="sm:hidden">PAYMENT</span>
+                    </h2>
+                    {isPaymentComplete && !editingPayment && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setEditingPayment(true)}
+                        className="flex items-center gap-2"
+                      >
+                        <Edit2 className="h-4 w-4" />
+                        <span className="hidden sm:inline">Update</span>
+                      </Button>
+                    )}
                   </div>
+
+                  {editingPayment ? (
+                    <div className="space-y-4">
+                      <div>
+                        <Label htmlFor="cardName">Name on Card</Label>
+                        <Input 
+                          id="cardName" 
+                          required 
+                          value={paymentData.cardName}
+                          onChange={(e) => setPaymentData({...paymentData, cardName: e.target.value})}
+                          className="mt-1 bg-secondary border-border" 
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="cardNumber">Card Number</Label>
+                        <Input 
+                          id="cardNumber" 
+                          placeholder="1234 5678 9012 3456" 
+                          required 
+                          value={paymentData.cardNumber}
+                          onChange={(e) => setPaymentData({...paymentData, cardNumber: e.target.value})}
+                          className="mt-1 bg-secondary border-border" 
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="expiry">Expiry Date</Label>
+                          <Input 
+                            id="expiry" 
+                            placeholder="MM/YY" 
+                            required 
+                            value={paymentData.expiry}
+                            onChange={(e) => setPaymentData({...paymentData, expiry: e.target.value})}
+                            className="mt-1 bg-secondary border-border" 
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="cvv">CVV</Label>
+                          <Input 
+                            id="cvv" 
+                            placeholder="123" 
+                            required 
+                            value={paymentData.cvv}
+                            onChange={(e) => setPaymentData({...paymentData, cvv: e.target.value})}
+                            className="mt-1 bg-secondary border-border" 
+                          />
+                        </div>
+                      </div>
+                      {isPaymentComplete && (
+                        <Button
+                          type="button"
+                          onClick={handlePaymentUpdate}
+                          className="w-full sm:w-auto"
+                        >
+                          <Check className="h-4 w-4 mr-2" />
+                          Save Payment Info
+                        </Button>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="bg-secondary/50 rounded-lg p-4 space-y-2">
+                      <p className="text-sm text-foreground">
+                        <span className="font-medium">Card:</span> •••• •••• •••• {paymentData.cardNumber.slice(-4)}
+                      </p>
+                      <p className="text-sm text-foreground">
+                        <span className="font-medium">Name:</span> {paymentData.cardName}
+                      </p>
+                      <p className="text-sm text-foreground">
+                        <span className="font-medium">Expires:</span> {paymentData.expiry}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
 
               {/* Order Summary */}
               <div className="lg:col-span-1">
-                <div className="bg-card border border-border rounded-lg p-6 sticky top-24">
-                  <h2 className="font-display text-xl mb-6 text-foreground">
+                <div className="bg-card border border-border rounded-lg p-4 sm:p-6 sticky top-24">
+                  <h2 className="font-display text-lg sm:text-xl mb-6 text-foreground">
                     ORDER SUMMARY
                   </h2>
 
@@ -214,19 +457,19 @@ const Checkout = () => {
 
                   {/* Totals */}
                   <div className="space-y-3 border-t border-border pt-4">
-                    <div className="flex justify-between text-muted-foreground">
+                    <div className="flex justify-between text-sm sm:text-base text-muted-foreground">
                       <span>Subtotal</span>
                       <span>{formatPrice(subtotal)}</span>
                     </div>
-                    <div className="flex justify-between text-muted-foreground">
+                    <div className="flex justify-between text-sm sm:text-base text-muted-foreground">
                       <span>Shipping</span>
                       <span>{shipping === 0 ? 'FREE' : formatPrice(shipping)}</span>
                     </div>
-                    <div className="flex justify-between text-muted-foreground">
+                    <div className="flex justify-between text-sm sm:text-base text-muted-foreground">
                       <span>Estimated Tax</span>
                       <span>{formatPrice(tax)}</span>
                     </div>
-                    <div className="flex justify-between text-lg font-bold text-foreground border-t border-border pt-3">
+                    <div className="flex justify-between text-base sm:text-lg font-bold text-foreground border-t border-border pt-3">
                       <span>Total</span>
                       <span>{formatPrice(total)}</span>
                     </div>
@@ -241,7 +484,7 @@ const Checkout = () => {
                     {isProcessing ? 'Processing...' : `Pay ${formatPrice(total)}`}
                   </Button>
 
-                  <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground justify-center">
+                  <div className="mt-4 flex items-center gap-2 text-xs sm:text-sm text-muted-foreground justify-center">
                     <Shield className="h-4 w-4 text-success" />
                     Secure SSL Encryption
                   </div>
