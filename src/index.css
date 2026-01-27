@@ -92,6 +92,49 @@
     --sidebar-ring: 174 62% 45%;
   }
 }
+@keyframes float-text {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes float-text-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-float-text {
+  animation: float-text 20s linear infinite;
+}
+
+.animate-float-text-reverse {
+  animation: float-text-reverse 20s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}
+
+/* Optional: Pause on hover */
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
 
 @layer base {
   * {
