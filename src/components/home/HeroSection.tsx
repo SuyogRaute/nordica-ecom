@@ -3,8 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { BannerCarousel } from "@/components/home/addcoroseul";
 import { MarqueeBar } from "@/components/home/marquee";
+import { useEffect } from "react";
 
 export function HeroSection() {
+  
   return (
     <>
       {/* Marquee Sale Bar */}

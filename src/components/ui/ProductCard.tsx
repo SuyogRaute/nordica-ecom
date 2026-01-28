@@ -54,17 +54,31 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </Badge>
           )}
 
-          {/* Quick Add */}
-          <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-background/90 to-transparent opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-            <Button 
-              onClick={handleAddToCart}
-              className="w-full gradient-primary"
-              size="sm"
-            >
-              <ShoppingCart className="h-4 w-4 mr-2" />
-              Add to Cart
-            </Button>
-          </div>
+         {/* Quick Add */}
+<div
+  className="
+    absolute inset-x-0 bottom-0 p-4
+    bg-gradient-to-t from-background/90 to-transparent
+
+    /* Mobile: always visible */
+    opacity-100 translate-y-0
+
+    /* Desktop: show on hover only */
+    lg:opacity-0 lg:translate-y-4
+    lg:group-hover:opacity-100 lg:group-hover:translate-y-0
+
+    transition-all duration-300
+  "
+>
+  <Button 
+    onClick={handleAddToCart}
+    className="w-full gradient-primary"
+    size="sm"
+  >
+    <ShoppingCart className="h-4 w-4 mr-2" />
+    Add to Cart
+  </Button>
+</div>
         </div>
 
         {/* Content */}

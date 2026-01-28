@@ -10,7 +10,7 @@ export function MarqueeBar() {
   ];
 
   return (
-    <div className="relative bg-primary overflow-hidden">
+    <div className="relative bg-primary overflow-hidden  ">
       <div className="relative flex">
         {/* First marquee group */}
         <div className="flex animate-marquee whitespace-nowrap">

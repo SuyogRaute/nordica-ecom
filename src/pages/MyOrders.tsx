@@ -299,10 +299,12 @@ const OrderCard = ({ order, currency, formatPrice }: {
             Download Invoice
           </Button>
           {order.status === 'delivered' && (
-            <Button variant="outline" size="sm" className="flex items-center gap-2">
-              <RotateCcw className="w-4 h-4" />
-              Return Items
-            </Button>
+            <Link to={`/return-item/${order.id}`}>
+              <Button variant="outline" size="sm" className="flex items-center gap-2 text-red-600 border-red-200 hover:bg-red-50">
+                <RotateCcw className="w-4 h-4" />
+                Return Items
+              </Button>
+            </Link>
           )}
           <Button variant="outline" size="sm" className="flex items-center gap-2">
             <MessageCircle className="w-4 h-4" />
