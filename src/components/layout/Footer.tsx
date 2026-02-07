@@ -1,14 +1,11 @@
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Youtube, Mail, MapPin, Phone } from "lucide-react";
-
+import LOGO from "@/assets/footerlogo.png"
 const footerLinks = {
   shop: [
-    { name: "All Products", href: "/shop" },
-    { name: "New Arrivals", href: "/shop/new" },
-    { name: "Detailing Accessories", href: "/shop/accessories" },
-    { name: "Liquids & Chemicals", href: "/shop/liquids" },
-    { name: "Microfiber", href: "/shop/microfiber" },
-    { name: "Bundles & Kits", href: "/shop/bundles" },
+
+    { name: "Detailing Accessories", href: "/products" },
+
   ],
   company: [
     { name: "About Us", href: "/about" },
@@ -17,8 +14,8 @@ const footerLinks = {
     { name: "Canada Store", href: "/canada" },
   ],
   support: [
-    { name: "Shipping & Returns", href: "/shipping" },
-    { name: "FAQ", href: "/faq" },
+    { name: "Shipping & Returns", href: "/shippingd" },
+    { name: "FAQ", href: "/faqw" },
     { name: "Privacy Policy", href: "/privacy" },
     { name: "Terms of Service", href: "/terms" },
   ],
@@ -38,9 +35,7 @@ export function Footer() {
           {/* Brand Column */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-6">
-              <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">DG</span>
-              </div>
+              <img src={LOGO} alt="" className="object-contain h-16 w-16" />
               <div>
                 <span className="font-bold text-xl tracking-tight">Detail Guardz</span>
                 <span className="block text-xs text-background/60 -mt-1">Premium Car Care</span>
@@ -104,7 +99,7 @@ export function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <span className="text-background/70">
-                  Serving customers<br />across Canada
+                  proudly Serving customers<br />across North America
                 </span>
               </li>
               <li>
@@ -113,7 +108,7 @@ export function Footer() {
                   className="flex items-center gap-3 text-background/70 hover:text-primary transition-colors"
                 >
                   <Mail className="h-5 w-5 text-primary shrink-0" />
-                  info@detailguardz.com
+                  info@nordicaplastics.com
                 </a>
               </li>
               <li>

@@ -28,77 +28,7 @@ const ProductDetail = () => {
     const aboutSectionRef = useRef<HTMLDivElement>(null);
     const imageContainerRef = useRef<HTMLDivElement>(null);
     const [isImageSticky, setIsImageSticky] = useState(false);
-    const exampleReviews = [
-    {
-      name: "John Doe",
-      rating: 5,
-      title: "Perfect Product!",
-      date: "2 days ago",
-      verified: true,
-      comment: "This is hands down the best car care product I've ever purchased. The quality is exceptional and it works exactly as advertised. Installation was super easy and it's made such a difference in my detailing routine. Highly recommend to anyone serious about car care!",
-      images: [
-        "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=200&h=200&fit=crop",
-        "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=200&h=200&fit=crop",
-        "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=200&h=200&fit=crop"
-      ],
-      helpfulCount: 24
-    },
-    {
-      name: "Sarah Miller",
-      rating: 4,
-      title: "Great value for money",
-      date: "1 week ago",
-      verified: true,
-      comment: "Really impressed with the quality. Works great and is very durable. The only reason I'm giving 4 stars instead of 5 is that shipping took a bit longer than expected, but the product itself is fantastic. Would definitely buy again.",
-      helpfulCount: 12
-    },
-    {
-      name: "Mike Rodriguez",
-      rating: 5,
-      title: "Professional Quality",
-      date: "2 weeks ago",
-      verified: true,
-      comment: "As a professional detailer, I'm always skeptical of new products. But this exceeded my expectations. The build quality is solid, it performs consistently, and my clients have noticed the difference. Already ordered 3 more for my team. A must-have tool!",
-      images: [
-        "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=200&h=200&fit=crop"
-      ],
-      helpfulCount: 45
-    },
-    {
-      name: "Emily Kim",
-      rating: 5,
-      title: "Exceeded expectations!",
-      date: "3 weeks ago",
-      verified: true,
-      comment: "I was hesitant to spend this much on a car care product, but I'm so glad I did. It's made my weekly car washing so much easier and more effective. The results speak for themselves - my car looks showroom fresh every time. Worth every penny!",
-      helpfulCount: 18
-    }
-  ];
- const exampleData = {
-    productName: "Detail Guardz",
-    mainVideo: {
-      url: "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1",
-      title: "Product Video",
-      description: "Watch this detailed demonstration to see how the Detail Guardz product works and learn professional installation tips. See the innovative design features that make this the top choice for car care enthusiasts and professional detailers."
-    },
-    additionalVideos: [
-      {
-        url: "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1",
-        title: "Installation Guide",
-        subtitle: "Step-by-step setup instructions"
-      },
-      {
-        url: "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1",
-        title: "Customer Review",
-        subtitle: "Real users share their experience"
-      },
-      {
-        url: "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1",
-        title: "Pro Tips & Tricks",
-        subtitle: "Expert advice for best results"
-      }
-    ]
-  };
+
     useEffect(() => {
         const handleScroll = () => {
             if (!aboutSectionRef.current || !imageContainerRef.current) return;
@@ -213,7 +143,7 @@ const ProductDetail = () => {
                             {product.category.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                         </Link>
                         <span>/</span>
-                        <span className="text-foreground">Detail Guardz Products</span>
+                        <span className="text-foreground">{product.name}</span>
                     </nav>
                 </div>
 
@@ -247,8 +177,8 @@ const ProductDetail = () => {
                                         key={idx}
                                         onClick={() => setSelectedImage(idx)}
                                         className={`aspect-square rounded-lg border-2 overflow-hidden transition-all ${selectedImage === idx
-                                                ? 'border-primary ring-2 ring-primary/20'
-                                                : 'border-border hover:border-primary/50'
+                                            ? 'border-primary ring-2 ring-primary/20'
+                                            : 'border-border hover:border-primary/50'
                                             }`}
                                     >
                                         <img
@@ -279,8 +209,8 @@ const ProductDetail = () => {
                                 <h1 className="text-2xl lg:text-3xl font-bold text-foreground mb-2 leading-tight">
                                     {product.name}
                                 </h1>
-                                <Link to="/brand/detail-guardz" className="text-sm text-primary hover:underline">
-                                    Visit the DETAIL GUARDZ Store
+                                <Link to={`/brand/${product.brand.toLowerCase().replace(/\s+/g, '-')}`} className="text-sm text-primary hover:underline">
+                                    Visit the {product.brand} Store
                                 </Link>
                             </div>
 
@@ -293,10 +223,10 @@ const ProductDetail = () => {
                                             <Star
                                                 key={i}
                                                 className={`w-4 h-4 ${i < Math.floor(product.rating)
+                                                    ? 'fill-orange-400 text-orange-400'
+                                                    : i < product.rating
                                                         ? 'fill-orange-400 text-orange-400'
-                                                        : i < product.rating
-                                                            ? 'fill-orange-400 text-orange-400'
-                                                            : 'fill-none text-gray-300'
+                                                        : 'fill-none text-gray-300'
                                                     }`}
                                             />
                                         ))}
@@ -340,8 +270,8 @@ const ProductDetail = () => {
                                             key={color.value}
                                             onClick={() => handleColorChange(color.value)}
                                             className={`group relative rounded-lg border-2 p-1 transition-all ${selectedColor === color.value
-                                                    ? 'border-primary ring-2 ring-primary/20'
-                                                    : 'border-border hover:border-primary/50'
+                                                ? 'border-primary ring-2 ring-primary/20'
+                                                : 'border-border hover:border-primary/50'
                                                 }`}
                                         >
                                             <div className="w-16 h-16 rounded-md overflow-hidden bg-gray-50">
@@ -446,7 +376,7 @@ const ProductDetail = () => {
                                     <tbody>
                                         <tr className="border-b border-border">
                                             <td className="py-3 px-4 font-medium text-foreground bg-gray-50/50 w-1/3">Brand</td>
-                                            <td className="py-3 px-4 text-foreground">DETAIL GUARDZ</td>
+                                            <td className="py-3 px-4 text-foreground">{product.specifications.brand}</td>
                                         </tr>
                                         <tr className="border-b border-border">
                                             <td className="py-3 px-4 font-medium text-foreground bg-gray-50/50">Color</td>
@@ -454,19 +384,19 @@ const ProductDetail = () => {
                                         </tr>
                                         <tr className="border-b border-border">
                                             <td className="py-3 px-4 font-medium text-foreground bg-gray-50/50">Material</td>
-                                            <td className="py-3 px-4 text-foreground">High-Grade Plastic Resin</td>
+                                            <td className="py-3 px-4 text-foreground">{product.specifications.material}</td>
                                         </tr>
                                         <tr className="border-b border-border">
                                             <td className="py-3 px-4 font-medium text-foreground bg-gray-50/50">Item Weight</td>
-                                            <td className="py-3 px-4 text-foreground">525 Grams</td>
+                                            <td className="py-3 px-4 text-foreground">{product.specifications.weight}</td>
                                         </tr>
                                         <tr className="border-b border-border">
                                             <td className="py-3 px-4 font-medium text-foreground bg-gray-50/50">Product Dimensions</td>
-                                            <td className="py-3 px-4 text-foreground">10.43"L x 10.43"W x 2.56"H</td>
+                                            <td className="py-3 px-4 text-foreground">{product.specifications.dimensions}</td>
                                         </tr>
                                         <tr className={showMoreDetails ? 'border-b border-border' : ''}>
                                             <td className="py-3 px-4 font-medium text-foreground bg-gray-50/50">Capacity</td>
-                                            <td className="py-3 px-4 text-foreground">5 Gallons</td>
+                                            <td className="py-3 px-4 text-foreground">{product.specifications.capacity || 'N/A'}</td>
                                         </tr>
                                         {showMoreDetails && (
                                             <>
@@ -478,7 +408,7 @@ const ProductDetail = () => {
                                                 </tr>
                                                 <tr>
                                                     <td className="py-3 px-4 font-medium text-foreground bg-gray-50/50">Manufacturer</td>
-                                                    <td className="py-3 px-4 text-foreground">DETAIL GUARDZ Canada</td>
+                                                    <td className="py-3 px-4 text-foreground">{product.specifications.manufacturer}</td>
                                                 </tr>
                                             </>
                                         )}
@@ -541,7 +471,7 @@ const ProductDetail = () => {
                 <ProductDescription
                     heroImage={product.image}
                     heroImageAlt={product.name}
-                    description="Using a set of Detail Guardz is the most efficient way to work around your vehicle without being interrupted by stubborn hose & cord jams. The roller system allows for effortless movements without the need to tug and adjust your equipment. This unique tool has a locking mechanism to instantly grip onto the tire to keep it firmly in place. Quickly slide the Detail Guardz underneath your tires and forget about your hoses and cords getting caught!"
+                    description={product.longDescription}
                     features={[
                         {
                             image: product.image,
@@ -565,12 +495,14 @@ const ProductDetail = () => {
                         }
                     ]}
                 />
-                {/* Product Video Section - Add this after Product Description and before Product Information */}
-                 <ProductVideoSection
-        productName={exampleData.productName}
-        mainVideo={exampleData.mainVideo}
-        additionalVideos={exampleData.additionalVideos}
-      />
+                {/* Product Video Section */}
+                {product.videos && (
+                    <ProductVideoSection
+                        productName={product.name}
+                        mainVideo={product.videos.main}
+                        additionalVideos={product.videos.additional}
+                    />
+                )}
                 {/* Related Products */}
                 {relatedProducts.length > 0 && (
                     <div className="container mx-auto px-4 mt-20">
@@ -588,21 +520,15 @@ const ProductDetail = () => {
                     </div>
                 )}
             </div>
-            {/* Customer Reviews Section - Add this after Product Video and before Product Information */}
+            {/* Customer Reviews Section */}
             <CustomerReviewsSection
-        overallRating={4.8}
-        totalReviews={564}
-        ratingBreakdown={[
-          { stars: 5, percentage: 75, count: 423 },
-          { stars: 4, percentage: 15, count: 85 },
-          { stars: 3, percentage: 6, count: 34 },
-          { stars: 2, percentage: 3, count: 17 },
-          { stars: 1, percentage: 1, count: 5 },
-        ]}
-        reviews={exampleReviews}
-        onWriteReview={() => alert('Write a review clicked')}
-        onLoadMore={() => alert('Load more clicked')}
-      />
+                overallRating={product.rating}
+                totalReviews={product.reviewCount}
+                ratingBreakdown={product.ratingBreakdown}
+                reviews={product.reviews}
+                onWriteReview={() => console.log('Write a review clicked')}
+                onLoadMore={() => console.log('Load more clicked')}
+            />
         </Layout>
     );
 };

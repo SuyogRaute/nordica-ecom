@@ -1,7 +1,19 @@
-
 import React from 'react';
 
-const ProductVideoSection = ({ 
+interface Video {
+  url: string;
+  title: string;
+  description?: string;
+  subtitle?: string;
+}
+
+interface ProductVideoSectionProps {
+  productName?: string;
+  mainVideo?: Video;
+  additionalVideos?: Video[];
+}
+
+const ProductVideoSection: React.FC<ProductVideoSectionProps> = ({
   productName = "Product",
   mainVideo = {
     url: "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1",
@@ -14,7 +26,7 @@ const ProductVideoSection = ({
     <section>
       <div className="container mx-auto px-4 mt-8">
         <div className="max-w-6xl mx-auto">
-          
+
           {/* Section Title */}
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Product Video</h2>
 
@@ -45,7 +57,7 @@ const ProductVideoSection = ({
           {additionalVideos.length > 0 && (
             <div className="mt-8 grid md:grid-cols-3 gap-4">
               {additionalVideos.map((video, index) => (
-                <div 
+                <div
                   key={index}
                   className="bg-white border border-gray-200 rounded-lg overflow-hidden group cursor-pointer hover:shadow-lg transition-shadow"
                 >
@@ -75,4 +87,4 @@ const ProductVideoSection = ({
       </div>
     </section>
   );
-};export default ProductVideoSection;
+}; export default ProductVideoSection;

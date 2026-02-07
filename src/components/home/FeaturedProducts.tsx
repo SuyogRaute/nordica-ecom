@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight, Star, ShoppingCart } from "lucide-react";
 import { useCurrency } from '@/contexts/CurrencyContext';
+import { Link } from "react-router-dom";
 
 export default function FeaturedProducts() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -12,85 +13,94 @@ export default function FeaturedProducts() {
   const products = [
     {
       id: 1,
-      name: "Premium Microfiber Towel Set",
-      price: 34.99,
+      name: "dirt Lock Car Wash Insert – Bucket Filter for 3–8 Gallon Round Pails – Traps Debris, Prevents Swirl Marks – Self-Locking Rubber Grips, Venturi Flow, Cleaning Tool ",
+      price: 24.99,
       rating: 4.9,
       reviews: 234,
-      image: "https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?w=600&h=400&fit=crop",
-      badge: "Best Seller"
+      image: "https://m.media-amazon.com/images/I/71FKBeRc4cL._AC_SX679_.jpg",
+      badge: "Premium",
+      url: "https://www.amazon.com/Detail-Guardz-Dirt-Bucket-Insert/dp/B07CKC4M9D?ref_=ast_sto_dp&th=1"
     },
     {
       id: 2,
-      name: "Professional Foam Cannon",
-      price: 89.99,
+      name: "Dirt Lock Scrub Wall 180/360 – Washboard Attachment Dirt Lock - Bucket Filter – Vertical Cleaning Tool for Brushes, Mitts",
+      price: 20.99,
       rating: 4.8,
       reviews: 189,
-      image: "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=600&h=400&fit=crop",
-      badge: "New Arrival"
+      image: "https://m.media-amazon.com/images/I/71PucAJR9iL._AC_SX466_.jpg",
+      badge: "Premium",
+      url: "https://www.amazon.com/DETAIL-GUARDZ-Bucket-Filter-Washboard/dp/B09CRX2D31?ref_=ast_sto_dp&th=1"
     },
     {
       id: 3,
-      name: "Ceramic Coating Kit",
-      price: 149.99,
+      name: "The Dirt Lock Scrub and Pump Attachment for Car Wash Bucket Filter",
+      price: 16.99,
       rating: 5.0,
       reviews: 421,
-      image: "https://images.unsplash.com/photo-1625628226292-41f25a9418e5?w=600&h=400&fit=crop",
-      badge: "Premium"
+      image: "https://m.media-amazon.com/images/I/71FXvGVXeHS._AC_SX466_.jpg",
+      badge: "Premium",
+      url: "https://www.amazon.com/DETAIL-GUARDZ-Attachment-Bucket-Filter/dp/B08FTK9PJJ?ref_=ast_sto_dp&th=1"
     },
-    {
-      id: 4,
-      name: "Dual Action Polisher",
-      price: 199.99,
-      rating: 4.9,
-      reviews: 156,
-      image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&h=400&fit=crop",
-      badge: "Top Rated"
-    },
+    // {
+    //   id: 4,
+    //   name: "Dirt Lock Scrub and Pump Bundle Complete Kit (Includes Dirt Lock Car Wash Bucket Filter) ",
+    //   price: 199.99,
+    //   rating: 4.9,
+    //   reviews: 156,
+    //   image: "https://m.media-amazon.com/images/S/aplus-media/sc/8b3aa2c3-50fc-492d-b032-301bd651808d.__CR0,244,1000,619_PT0_SX970_V1___.jpg",
+    //   badge: "Premium",
+    //   url: "https://www.amazon.com/DETAIL-GUARDZ-Bundle-Complete-Bucket/dp/B08WWPLGNB?ref_=ast_sto_dp"
+    // },
     {
       id: 5,
-      name: "All-in-One Detailing Kit",
+      name: "Dirt Lock Pad Washer System Attachment with Spray Cleaner",
       price: 124.99,
       rating: 4.7,
       reviews: 312,
-      image: "https://images.unsplash.com/photo-1581235720704-06d3acfcb36f?w=600&h=400&fit=crop",
-      badge: "Popular"
+      image: "https://m.media-amazon.com/images/I/710cuaz8RzS._AC_SX466_.jpg",
+      badge: "Popular",
+      url: "https://www.amazon.com/Detail-Guardz-Washer-Attachment-Cleaner/dp/B07VGMKW7S?ref_=ast_sto_dp&th=1"
     },
     {
       id: 6,
-      name: "Glass Cleaning Kit",
+      name: "The Dirt Lock Pad Washer Bundle Complete Kit (Black) Includes Dirt Lock Bucket Filter",
       price: 45.99,
       rating: 4.6,
       reviews: 198,
-      image: "https://images.unsplash.com/photo-1583468982228-19f19164aee2?w=600&h=400&fit=crop",
-      badge: "Essential"
+      image: "https://m.media-amazon.com/images/I/61jDCK8t-1S._AC_SX466_.jpg",
+      badge: "Premium",
+      url: "https://www.amazon.com/DETAIL-GUARDZ-Washer-Bundle-Complete/dp/B088WZ9STB?ref_=ast_sto_dp"
     },
     {
       id: 7,
-      name: "Tire Shine & Dressing",
+      name: "Hose Guide – 4pcs Plastic Hose Roller for Cars, Trucks & Motorcycles - Car Wheel Rolling System Tool Preventing Stucking and Snagging Under Tires ",
       price: 28.99,
       rating: 4.8,
       reviews: 267,
-      image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=600&h=400&fit=crop",
-      badge: "Best Value"
+      image: "https://m.media-amazon.com/images/I/61wf9wewH5L._AC_SX466_.jpg",
+      badge: "Premium",
+      url: "https://www.amazon.com/DETAIL-GUARDZ-Hose-Guide-Motorcycles/dp/B0FHKTM2YW?ref_=ast_sto_dp&th=1"
     },
-    {
-      id: 8,
-      name: "Interior Detailing Bundle",
-      price: 79.99,
-      rating: 4.9,
-      reviews: 345,
-      image: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&h=400&fit=crop",
-      badge: "Complete Set"
-    },
-    {
-      id: 9,
-      name: "Paint Protection Film",
-      price: 299.99,
-      rating: 5.0,
-      reviews: 178,
-      image: "https://images.unsplash.com/photo-1580274455191-1c62238fa333?w=600&h=400&fit=crop",
-      badge: "Professional"
-    }
+    // {
+    //   id: 8,
+    //   name: "The Microfiber and Foam Pad Cleaner Spray (6X 650ML)",
+    //   price: 79.99,
+    //   rating: 4.9,
+    //   reviews: 345,
+    //   image: "https://m.media-amazon.com/images/I/8153MDtrc5L._AC_SX466_.jpg",
+    //   badge: "Premium",
+    //   url: "https://www.amazon.com/DETAIL-GUARDZ-Microfiber-Cleaner-Spray/dp/B08WT79STZ?ref_=ast_sto_dp"
+    // },
+    // {
+    //   id: 9,
+    //   name: " Car Hose Guides (2 Pack Black)",
+    //   price: 299.99,
+    //   rating: 5.0,
+    //   reviews: 178,
+    //   image: "https://m.media-amazon.com/images/I/61d5UKVXwoL._AC_SX466_.jpg",
+    //   badge: "Premium",
+    //   url: "https://www.amazon.com/Detail-Guardz-Hose-Guide-Black/dp/B07ND4L2ML?ref_=ast_sto_dp&th=1"
+    // }
   ];
 
   const getItemsPerPage = () => {
@@ -163,7 +173,7 @@ export default function FeaturedProducts() {
 
   const handleTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
-    
+
     const distance = touchStart - touchEnd;
     const isLeftSwipe = distance > 50;
     const isRightSwipe = distance < -50;
@@ -194,13 +204,13 @@ export default function FeaturedProducts() {
         </div>
 
         <div className="relative max-w-7xl mx-auto">
-          <div 
+          <div
             className="overflow-hidden"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            <div 
+            <div
               className="flex transition-transform duration-500 ease-out"
               style={{
                 transform: `translateX(-${currentIndex * (100 / itemsPerPage)}%)`,
@@ -217,7 +227,7 @@ export default function FeaturedProducts() {
                       <img
                         src={product.image}
                         alt={product.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
                       />
                       <div className="absolute top-3 md:top-4 left-3 md:left-4">
                         <span className="px-2 py-1 md:px-3 md:py-1.5 bg-blue-600 text-white text-xs font-bold rounded-full shadow-lg">
@@ -225,43 +235,30 @@ export default function FeaturedProducts() {
                         </span>
                       </div>
                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <button className="px-4 py-2 md:px-6 md:py-3 bg-white text-black rounded-lg hover:bg-white/90 shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 flex items-center gap-2 text-sm md:text-base">
-                          <ShoppingCart className="w-4 h-4 md:w-5 md:h-5" />
-                          Quick Add
-                        </button>
+
                       </div>
                     </div>
 
                     <div className="p-4 md:p-6">
-                      <div className="flex items-center gap-2 mb-2 md:mb-3">
-                        <div className="flex items-center">
-                          {[...Array(5)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className={`h-3 w-3 md:h-4 md:w-4 ${
-                                i < Math.floor(product.rating)
-                                  ? "fill-yellow-400 text-yellow-400"
-                                  : "fill-gray-300 text-gray-300"
-                              }`}
-                            />
-                          ))}
-                        </div>
-                        <span className="text-xs md:text-sm text-gray-600 font-medium">
-                          {product.rating} ({product.reviews})
-                        </span>
-                      </div>
+                      
 
-                      <h3 className="text-base md:text-xl font-bold text-gray-900 mb-2 md:mb-3 line-clamp-2 min-h-[2.5rem] md:min-h-[3.5rem]">
+                      <h3 className="text-sm md:text-sm font-bold text-gray-900 mb-2 md:mb-3 line-clamp-2 min-h-[2.5rem] md:min-h-[3.5rem]">
                         {product.name}
                       </h3>
 
                       <p className="text-xl md:text-2xl font-bold text-blue-600 mb-3 md:mb-4">
                         {formatPrice(product.price)}
                       </p>
-
-                      <button className="w-full px-4 py-2 md:px-6 md:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base">
-                        View Details
-                      </button>
+                      <Link
+                        to={`${product.url}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group block"
+                      >
+                        <button className="w-full px-4 py-2 md:px-6 md:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base">
+                          Buy Now
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -299,11 +296,10 @@ export default function FeaturedProducts() {
               key={index}
               onClick={() => goToSlide(index)}
               disabled={isTransitioning}
-              className={`h-2 md:h-2.5 rounded-full transition-all duration-300 ${
-                currentIndex === index
+              className={`h-2 md:h-2.5 rounded-full transition-all duration-300 ${currentIndex === index
                   ? "w-8 md:w-10 bg-blue-600 shadow-lg"
                   : "w-2 md:w-2.5 bg-gray-300 hover:bg-gray-400"
-              }`}
+                }`}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
@@ -330,10 +326,12 @@ export default function FeaturedProducts() {
         </div>
 
         <div className="text-center mt-8 md:mt-12">
+          <Link to={'/products'}>
           <button className="px-6 py-2.5 md:px-8 md:py-3 bg-white text-gray-900 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2 mx-auto text-sm md:text-base">
             View All Products
             <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
           </button>
+          </Link>
         </div>
       </div>
     </section>

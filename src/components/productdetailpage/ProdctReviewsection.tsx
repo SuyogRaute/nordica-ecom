@@ -1,7 +1,33 @@
 import React, { useState } from 'react';
 import { Star, Check, ChevronDown } from 'lucide-react';
 
-const CustomerReviewsSection = ({ 
+interface RatingBreakdown {
+  stars: number;
+  percentage: number;
+  count: number;
+}
+
+interface Review {
+  name: string;
+  rating: number;
+  title: string;
+  date: string;
+  verified: boolean;
+  comment: string;
+  images?: string[];
+  helpfulCount: number;
+}
+
+interface CustomerReviewsSectionProps {
+  overallRating?: number;
+  totalReviews?: number;
+  ratingBreakdown?: RatingBreakdown[];
+  reviews?: Review[];
+  onWriteReview?: () => void;
+  onLoadMore?: () => void;
+}
+
+const CustomerReviewsSection: React.FC<CustomerReviewsSectionProps> = ({
   overallRating = 4.8,
   totalReviews = 564,
   ratingBreakdown = [
@@ -12,8 +38,8 @@ const CustomerReviewsSection = ({
     { stars: 1, percentage: 1, count: 5 },
   ],
   reviews = [],
-  onWriteReview = () => {},
-  onLoadMore = () => {}
+  onWriteReview = () => { },
+  onLoadMore = () => { }
 }) => {
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [sortBy, setSortBy] = useState('recent');
@@ -30,13 +56,12 @@ const CustomerReviewsSection = ({
     return [...Array(5)].map((_, i) => (
       <Star
         key={i}
-        className={`${size} ${
-          i < Math.floor(rating)
-            ? 'fill-orange-400 text-orange-400'
-            : i < rating
+        className={`${size} ${i < Math.floor(rating)
+          ? 'fill-orange-400 text-orange-400'
+          : i < rating
             ? 'fill-orange-400 text-orange-400'
             : 'fill-none text-gray-300'
-        }`}
+          }`}
       />
     ));
   };
@@ -55,7 +80,7 @@ const CustomerReviewsSection = ({
           {/* Rating Overview */}
           <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
             <div className="grid md:grid-cols-2 gap-8">
-              
+
               {/* Left Side - Overall Rating */}
               <div className="flex flex-col items-center justify-center text-center border-r-0 md:border-r border-gray-200">
                 <div className="mb-4">
@@ -69,7 +94,7 @@ const CustomerReviewsSection = ({
                     Based on {totalReviews.toLocaleString()} reviews
                   </p>
                 </div>
-                <button 
+                <button
                   onClick={onWriteReview}
                   className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                 >
@@ -105,39 +130,36 @@ const CustomerReviewsSection = ({
           <div className="flex flex-wrap items-center gap-4 mb-6">
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-gray-900">Filter by:</span>
-              <button 
+              <button
                 onClick={() => setSelectedFilter('all')}
-                className={`px-3 py-1.5 text-sm border rounded-lg transition-colors ${
-                  selectedFilter === 'all' 
-                    ? 'bg-gray-900 text-white border-gray-900' 
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                }`}
+                className={`px-3 py-1.5 text-sm border rounded-lg transition-colors ${selectedFilter === 'all'
+                  ? 'bg-gray-900 text-white border-gray-900'
+                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                  }`}
               >
                 All Stars
               </button>
-              <button 
+              <button
                 onClick={() => setSelectedFilter('verified')}
-                className={`px-3 py-1.5 text-sm border rounded-lg transition-colors ${
-                  selectedFilter === 'verified' 
-                    ? 'bg-gray-900 text-white border-gray-900' 
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                }`}
+                className={`px-3 py-1.5 text-sm border rounded-lg transition-colors ${selectedFilter === 'verified'
+                  ? 'bg-gray-900 text-white border-gray-900'
+                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                  }`}
               >
                 Verified Purchase
               </button>
-              <button 
+              <button
                 onClick={() => setSelectedFilter('photos')}
-                className={`px-3 py-1.5 text-sm border rounded-lg transition-colors ${
-                  selectedFilter === 'photos' 
-                    ? 'bg-gray-900 text-white border-gray-900' 
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                }`}
+                className={`px-3 py-1.5 text-sm border rounded-lg transition-colors ${selectedFilter === 'photos'
+                  ? 'bg-gray-900 text-white border-gray-900'
+                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                  }`}
               >
                 With Photos
               </button>
             </div>
             <div className="ml-auto">
-              <select 
+              <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
                 className="text-sm border border-gray-300 rounded-lg px-3 py-2 bg-white text-gray-900"
@@ -155,7 +177,7 @@ const CustomerReviewsSection = ({
             {reviews.map((review, index) => (
               <div key={index} className="bg-white border border-gray-200 rounded-lg p-6">
                 <div className="flex items-start gap-4">
-                  
+
                   {/* Avatar */}
                   <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
                     <span className="text-lg font-semibold text-blue-600">
@@ -197,14 +219,14 @@ const CustomerReviewsSection = ({
                     {review.images && review.images.length > 0 && (
                       <div className="flex gap-2 mb-4">
                         {review.images.map((image, imgIndex) => (
-                          <div 
+                          <div
                             key={imgIndex}
                             className="w-20 h-20 rounded-lg bg-gray-100 border border-gray-200 overflow-hidden"
                           >
-                            <img 
-                              src={image} 
-                              alt={`Review ${imgIndex + 1}`} 
-                              className="w-full h-full object-cover" 
+                            <img
+                              src={image}
+                              alt={`Review ${imgIndex + 1}`}
+                              className="w-full h-full object-cover"
                             />
                           </div>
                         ))}
@@ -229,7 +251,7 @@ const CustomerReviewsSection = ({
 
           {/* Load More Button */}
           <div className="text-center mt-8">
-            <button 
+            <button
               onClick={onLoadMore}
               className="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
             >
@@ -242,4 +264,4 @@ const CustomerReviewsSection = ({
       </div>
     </section>
   );
-};export default CustomerReviewsSection;
+}; export default CustomerReviewsSection;

@@ -3,8 +3,8 @@ import { Truck, Shield, Leaf, Award } from "lucide-react";
 const features = [
   {
     icon: Truck,
-    title: "Fast Canadian Shipping",
-    description: "Free shipping on orders over $75. Most orders delivered within 3-5 business days across Canada.",
+    title: "Fast North American Shipping",
+    description: "Most orders delivered within 3-5 business days across North America.",
   },
   {
     icon: Shield,

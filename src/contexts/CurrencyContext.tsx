@@ -4,7 +4,6 @@ type Currency = 'USD' | 'CAD';
 
 interface CurrencyContextType {
   currency: Currency;
-  setCurrency: (currency: Currency) => void;
   formatPrice: (priceUSD: number) => string;
   convertPrice: (priceUSD: number) => number;
 }
@@ -17,11 +16,38 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [currency, setCurrency] = useState<Currency>('USD');
 
   useEffect(() => {
-    // Auto-detect country based on timezone (simple approach)
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    if (timezone.includes('Toronto') || timezone.includes('Vancouver') || timezone.includes('Canada')) {
-      setCurrency('CAD');
-    }
+    const detectCurrency = async () => {
+      try {
+        // 1. Try to get country code from an IP API
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+
+        if (data.country === 'CA' || data.country_code === 'CA') {
+          setCurrency('CAD');
+        } else {
+          setCurrency('USD');
+        }
+      } catch (error) {
+        // 2. Fallback to Timezone if API fails
+        console.warn("Geo-detection failed, falling back to timezone:", error);
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const isCanada = timezone.includes('Toronto') ||
+          timezone.includes('Vancouver') ||
+          timezone.includes('Edmonton') ||
+          timezone.includes('Winnipeg') ||
+          timezone.includes('Halifax') ||
+          timezone.includes('St_Johns') ||
+          timezone.includes('Canada');
+
+        if (isCanada) {
+          setCurrency('CAD');
+        } else {
+          setCurrency('USD');
+        }
+      }
+    };
+
+    detectCurrency();
   }, []);
 
   const convertPrice = (priceUSD: number): number => {
@@ -40,7 +66,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   return (
-    <CurrencyContext.Provider value={{ currency, setCurrency, formatPrice, convertPrice }}>
+    <CurrencyContext.Provider value={{ currency, formatPrice, convertPrice }}>
       {children}
     </CurrencyContext.Provider>
   );

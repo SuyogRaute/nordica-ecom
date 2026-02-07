@@ -19,6 +19,7 @@ const navLinks = [
   { name: 'About', href: '/about' },
   { name: 'Contact', href: '/contact' },
 ];
+import LOGO from "@/assets/logo.png"
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,8 +35,8 @@ export const Header = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-  
-  const { currency, setCurrency } = useCurrency();
+
+  const { currency } = useCurrency();
   const { totalItems } = useCart();
 
   // Mock user data - Replace with your actual auth context/state
@@ -54,13 +55,11 @@ export const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <div className="flex items-center gap-2">
-              <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">DG</span>
+              <div className="flex items-center">
+                <img src={LOGO} alt="" className='object-contain h-12 w-12 lg:h-16 lg:w-16' />
+
               </div>
-              <div className="hidden sm:block">
-                <span className="font-bold text-xl tracking-tight text-foreground">Detail Guardz</span>
-                <span className="block text-xs text-muted-foreground -mt-1">Premium Car Care</span>
-              </div>
+
             </div>
           </Link>
 
@@ -79,29 +78,10 @@ export const Header = () => {
 
           {/* Right Side Actions */}
           <div className="flex items-center gap-4">
-            {/* Currency Switcher */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="hidden sm:flex gap-1 text-foreground/80">
-                  {currency}
-                  <ChevronDown className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-card border-border">
-                <DropdownMenuItem 
-                  onClick={() => setCurrency('USD')}
-                  className="cursor-pointer"
-                >
-                  🇺🇸 USD - US Dollar
-                </DropdownMenuItem>
-                <DropdownMenuItem 
-                  onClick={() => setCurrency('CAD')}
-                  className="cursor-pointer"
-                >
-                  🇨🇦 CAD - Canadian Dollar
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {/* Current Currency Display (Static) */}
+            <div className="hidden sm:flex items-center gap-1 px-3 py-1 bg-secondary/50 rounded-full text-xs font-semibold text-foreground/70">
+              {currency === 'USD' ? '🇺🇸 USD' : '🇨🇦 CAD'}
+            </div>
 
             {/* Cart */}
             <Link to="/cart">
@@ -159,25 +139,12 @@ export const Header = () => {
                       {link.name}
                     </Link>
                   ))}
-                  
-                  {/* Currency Switcher Mobile */}
-                  <div className="pt-4">
-                    <p className="text-sm text-muted-foreground mb-2">Currency</p>
-                    <div className="flex gap-2">
-                      <Button 
-                        variant={currency === 'USD' ? 'default' : 'outline'} 
-                        size="sm"
-                        onClick={() => setCurrency('USD')}
-                      >
-                        🇺🇸 USD
-                      </Button>
-                      <Button 
-                        variant={currency === 'CAD' ? 'default' : 'outline'} 
-                        size="sm"
-                        onClick={() => setCurrency('CAD')}
-                      >
-                        🇨🇦 CAD
-                      </Button>
+
+                  {/* Currency Display Mobile */}
+                  <div className="pt-4 border-t border-border">
+                    <p className="text-sm text-muted-foreground mb-2">Region Detected</p>
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-secondary rounded-lg text-sm font-medium text-foreground">
+                      {currency === 'USD' ? '🇺🇸 United States (USD)' : '🇨🇦 Canada (CAD)'}
                     </div>
                   </div>
 
