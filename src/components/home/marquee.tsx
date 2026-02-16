@@ -4,8 +4,8 @@ export function MarqueeBar() {
   const announcements = [
     { icon: ShieldCheck, text: "100% Quality Guaranteed" },
     { icon: Zap, text: "Fast 24h Processing" },
-    { icon: Gift, text: "Exclusive Deals Available" },
-    { icon: Sparkles, text: "Premium Products Only", highlight: true },
+    // { icon: Gift, text: "Exclusive Deals Available" },
+    { icon: Sparkles, text: "Premium Products ", highlight: true },
 
   ];
 

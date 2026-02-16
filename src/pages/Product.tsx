@@ -147,7 +147,7 @@ const Products = () => {
       </div>
 
       {/* Price Range */}
-      <div>
+      {/* <div>
         <h3 className="font-display text-lg mb-4 text-foreground">Price Range</h3>
         <div className="space-y-3">
           {priceRanges.map((range) => (
@@ -166,7 +166,7 @@ const Products = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* Clear Filters */}
       {(selectedCategories.length > 0 || selectedPriceRanges.length > 0) && (

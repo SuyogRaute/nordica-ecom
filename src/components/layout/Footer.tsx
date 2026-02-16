@@ -22,9 +22,9 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { name: "Facebook", icon: Facebook, href: "#" },
-  { name: "Instagram", icon: Instagram, href: "#" },
-  { name: "YouTube", icon: Youtube, href: "#" },
+  { name: "Facebook", icon: Facebook, href: "https://www.facebook.com/share/1ApxsWerco/?mibextid=wwXIfr" },
+  { name: "Instagram", icon: Instagram, href: "https://www.instagram.com/detailguardz?igsh=OXJqd2hyenR0NGh6" },
+  { name: "YouTube", icon: Youtube, href: "https://youtube.com/@thedetailguardz?si=aDcSO3Z5hpS730yK" },
 ];
 
 export function Footer() {
@@ -108,7 +108,8 @@ export function Footer() {
                   className="flex items-center gap-3 text-background/70 hover:text-primary transition-colors"
                 >
                   <Mail className="h-5 w-5 text-primary shrink-0" />
-                  info@nordicaplastics.com
+                  {/* info@nordicaplastics.com */}
+                  info@nordicaplastics.ca
                 </a>
               </li>
               <li>

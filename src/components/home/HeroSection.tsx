@@ -19,11 +19,11 @@ export function HeroSection() {
         <div className="absolute inset-0">
           <picture>
             <source media="(max-width: 768px)" srcSet={BG_MOBILE} />
-            <img
+            {/* <img
               src={BG}
               alt=""
               className="w-full h-full object-cover"
-            />
+            /> */}
           </picture>
           {/* Dark overlay to ensure text is readable */}
           <div className="absolute inset-0 bg-gradient-to-br 

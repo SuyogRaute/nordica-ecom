@@ -22,15 +22,15 @@ const About = () => {
           {/* Hero Section with Background Image */}
           <section className="relative py-20 lg:py-32 overflow-hidden">
             {/* Background Image */}
-            <div className="absolute inset-0">
-              <img
+             { <div className="absolute inset-0">
+              {/* <img
                 src="https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=1920&h=1080&fit=crop"
                 alt="Car detailing"
                 className="w-full h-full object-cover"
-              />
+              /> */}
               {/* Dark overlay for text readability */}
-              <div className="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-slate-900/85 to-slate-900/80" />
-            </div>
+              { <div className="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-slate-900/85 to-slate-900/80" /> }
+             </div> }  
 
             {/* Decorative gradient orbs */}
             <div className="absolute inset-0">
@@ -101,15 +101,15 @@ const About = () => {
                   </div>
                 </div>
                 <div className="relative">
-                  <img
+                  {/* <img
                     src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&h=500&fit=crop"
                     alt="Detail Guardz team working on a car"
                     className="rounded-2xl shadow-elevated"
-                  />
-                  <div className="absolute -bottom-6 -left-6 bg-primary text-primary-foreground rounded-xl p-6 shadow-elevated">
+                  /> */}
+                  {/* <div className="absolute -bottom-6 -left-6 bg-primary text-primary-foreground rounded-xl p-6 shadow-elevated">
                     <p className="text-3xl font-bold">2018</p>
                     <p className="text-sm opacity-80">Founded in Canada</p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

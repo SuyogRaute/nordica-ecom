@@ -3,7 +3,7 @@ import { Truck, Shield, Leaf, Award } from "lucide-react";
 const features = [
   {
     icon: Truck,
-    title: "Fast North American Shipping",
+    title: "Fast shipping across North America",
     description: "Most orders delivered within 3-5 business days across North America.",
   },
   {
@@ -13,8 +13,8 @@ const features = [
   },
   {
     icon: Leaf,
-    title: "Eco-Friendly Options",
-    description: "Many of our products are biodegradable and safe for the environment without compromising results.",
+    title: "Eco-Friendly ",
+    description: "Many of our products are biodegradable and safe for the environment without compromising results ,By saving water. ",
   },
   {
     icon: Award,
