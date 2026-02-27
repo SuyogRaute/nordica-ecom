@@ -9,6 +9,17 @@ import Layout from '@/components/layout/Layout';
 import { useCart } from '@/contexts/CartContext';
 import { useCurrency } from '@/contexts/CurrencyContext';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
+const getUserId = () => {
+  let userId = localStorage.getItem('nordica_user_id');
+  if (!userId) {
+    userId = 'USR-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+    localStorage.setItem('nordica_user_id', userId);
+  }
+  return userId;
+};
+
 const Checkout = () => {
   const navigate = useNavigate();
   const { items, subtotal, clearCart } = useCart();
@@ -44,10 +55,10 @@ const Checkout = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
-    
+
     // Simulate payment processing
     await new Promise(resolve => setTimeout(resolve, 2000));
-    
+
     clearCart();
     navigate('/checkout/success');
   };
@@ -65,10 +76,47 @@ const Checkout = () => {
   };
 
   const isContactComplete = contactData.email && contactData.phone;
-  const isShippingComplete = shippingData.firstName && shippingData.lastName && 
+  const isShippingComplete = shippingData.firstName && shippingData.lastName &&
     shippingData.address && shippingData.city && shippingData.state && shippingData.zip;
-  const isPaymentComplete = paymentData.cardName && paymentData.cardNumber && 
-    paymentData.expiry && paymentData.cvv;
+  // Payment completion state is handled by PayPal now
+  const isPaymentComplete = true;
+
+  const handlePaymentSubmit = async () => {
+    setIsProcessing(true);
+    try {
+      const productNames = items.map(item => item.name).join(', ');
+
+      const payload = {
+        amount: total.toFixed(2),
+        productName: productNames,
+        userId: getUserId(),
+        currency: currency,
+      };
+
+      console.log('Sending payload to backend checkout create:', payload);
+
+      const response = await fetch(`${API_URL}/api/payment/create`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+      console.log('Backend response from create:', data);
+
+      if (data.status === "CREATED" || data.orderId) {
+        window.location.href = `https://www.sandbox.paypal.com/checkoutnow?token=${data.orderId}`;
+      } else {
+        throw new Error(data.error || "Failed to create order");
+      }
+    } catch (err) {
+      console.error(err);
+      alert('An error occurred during payment creation. Check console.');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
 
   if (items.length === 0) {
     navigate('/cart');
@@ -112,24 +160,24 @@ const Checkout = () => {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="w-full">
                           <Label htmlFor="email" className="text-sm md:text-base">Email</Label>
-                          <Input 
-                            id="email" 
-                            type="email" 
-                            required 
+                          <Input
+                            id="email"
+                            type="email"
+                            required
                             value={contactData.email}
-                            onChange={(e) => setContactData({...contactData, email: e.target.value})}
-                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base" 
+                            onChange={(e) => setContactData({ ...contactData, email: e.target.value })}
+                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base"
                           />
                         </div>
                         <div className="w-full">
                           <Label htmlFor="phone" className="text-sm md:text-base">Phone</Label>
-                          <Input 
-                            id="phone" 
-                            type="tel" 
-                            required 
+                          <Input
+                            id="phone"
+                            type="tel"
+                            required
                             value={contactData.phone}
-                            onChange={(e) => setContactData({...contactData, phone: e.target.value})}
-                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base" 
+                            onChange={(e) => setContactData({ ...contactData, phone: e.target.value })}
+                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base"
                           />
                         </div>
                       </div>
@@ -183,81 +231,81 @@ const Checkout = () => {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="w-full">
                           <Label htmlFor="firstName" className="text-sm md:text-base">First Name</Label>
-                          <Input 
-                            id="firstName" 
-                            required 
+                          <Input
+                            id="firstName"
+                            required
                             value={shippingData.firstName}
-                            onChange={(e) => setShippingData({...shippingData, firstName: e.target.value})}
-                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base" 
+                            onChange={(e) => setShippingData({ ...shippingData, firstName: e.target.value })}
+                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base"
                           />
                         </div>
                         <div className="w-full">
                           <Label htmlFor="lastName" className="text-sm md:text-base">Last Name</Label>
-                          <Input 
-                            id="lastName" 
-                            required 
+                          <Input
+                            id="lastName"
+                            required
                             value={shippingData.lastName}
-                            onChange={(e) => setShippingData({...shippingData, lastName: e.target.value})}
-                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base" 
+                            onChange={(e) => setShippingData({ ...shippingData, lastName: e.target.value })}
+                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base"
                           />
                         </div>
                         <div className="sm:col-span-2 w-full">
                           <Label htmlFor="address" className="text-sm md:text-base">Address</Label>
-                          <Input 
-                            id="address" 
-                            required 
+                          <Input
+                            id="address"
+                            required
                             value={shippingData.address}
-                            onChange={(e) => setShippingData({...shippingData, address: e.target.value})}
-                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base" 
+                            onChange={(e) => setShippingData({ ...shippingData, address: e.target.value })}
+                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base"
                           />
                         </div>
                         <div className="sm:col-span-2 w-full">
                           <Label htmlFor="apartment" className="text-sm md:text-base">Apartment, Suite, etc. (optional)</Label>
-                          <Input 
-                            id="apartment" 
+                          <Input
+                            id="apartment"
                             value={shippingData.apartment}
-                            onChange={(e) => setShippingData({...shippingData, apartment: e.target.value})}
-                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base" 
+                            onChange={(e) => setShippingData({ ...shippingData, apartment: e.target.value })}
+                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base"
                           />
                         </div>
                         <div className="w-full">
                           <Label htmlFor="city" className="text-sm md:text-base">City</Label>
-                          <Input 
-                            id="city" 
-                            required 
+                          <Input
+                            id="city"
+                            required
                             value={shippingData.city}
-                            onChange={(e) => setShippingData({...shippingData, city: e.target.value})}
-                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base" 
+                            onChange={(e) => setShippingData({ ...shippingData, city: e.target.value })}
+                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base"
                           />
                         </div>
                         <div className="w-full">
                           <Label htmlFor="state" className="text-sm md:text-base">State/Province</Label>
-                          <Input 
-                            id="state" 
-                            required 
+                          <Input
+                            id="state"
+                            required
                             value={shippingData.state}
-                            onChange={(e) => setShippingData({...shippingData, state: e.target.value})}
-                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base" 
+                            onChange={(e) => setShippingData({ ...shippingData, state: e.target.value })}
+                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base"
                           />
                         </div>
                         <div className="w-full">
                           <Label htmlFor="zip" className="text-sm md:text-base">ZIP/Postal Code</Label>
-                          <Input 
-                            id="zip" 
-                            required 
+                          <Input
+                            id="zip"
+                            required
                             value={shippingData.zip}
-                            onChange={(e) => setShippingData({...shippingData, zip: e.target.value})}
-                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base" 
+                            onChange={(e) => setShippingData({ ...shippingData, zip: e.target.value })}
+                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base"
                           />
                         </div>
                         <div className="w-full">
                           <Label htmlFor="country" className="text-sm md:text-base">Country</Label>
-                          <Input 
-                            id="country" 
+                          <Input
+                            id="country"
                             value={shippingData.country}
-                            onChange={(e) => setShippingData({...shippingData, country: e.target.value})}
-                            required 
-                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base" 
+                            onChange={(e) => setShippingData({ ...shippingData, country: e.target.value })}
+                            required
+                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base"
                           />
                         </div>
                       </div>
@@ -346,89 +394,22 @@ const Checkout = () => {
                       <span className="hidden sm:inline">PAYMENT INFORMATION</span>
                       <span className="sm:hidden">PAYMENT</span>
                     </h2>
-                    {isPaymentComplete && !editingPayment && (
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setEditingPayment(true)}
-                        className="flex items-center gap-1 md:gap-2 h-8 md:h-9"
-                      >
-                        <Edit2 className="h-3 w-3 md:h-4 md:w-4" />
-                        <span className="text-xs md:text-sm">Update</span>
-                      </Button>
-                    )}
                   </div>
 
-                  {editingPayment ? (
-                    <div className="space-y-4">
-                      <div className="w-full">
-                        <Label htmlFor="cardName" className="text-sm md:text-base">Name on Card</Label>
-                        <Input 
-                          id="cardName" 
-                          required 
-                          value={paymentData.cardName}
-                          onChange={(e) => setPaymentData({...paymentData, cardName: e.target.value})}
-                          className="mt-1 bg-secondary border-border w-full text-sm md:text-base" 
-                        />
-                      </div>
-                      <div className="w-full">
-                        <Label htmlFor="cardNumber" className="text-sm md:text-base">Card Number</Label>
-                        <Input 
-                          id="cardNumber" 
-                          placeholder="1234 5678 9012 3456" 
-                          required 
-                          value={paymentData.cardNumber}
-                          onChange={(e) => setPaymentData({...paymentData, cardNumber: e.target.value})}
-                          className="mt-1 bg-secondary border-border w-full text-sm md:text-base" 
-                        />
-                      </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="w-full">
-                          <Label htmlFor="expiry" className="text-sm md:text-base">Expiry Date</Label>
-                          <Input 
-                            id="expiry" 
-                            placeholder="MM/YY" 
-                            required 
-                            value={paymentData.expiry}
-                            onChange={(e) => setPaymentData({...paymentData, expiry: e.target.value})}
-                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base" 
-                          />
-                        </div>
-                        <div className="w-full">
-                          <Label htmlFor="cvv" className="text-sm md:text-base">CVV</Label>
-                          <Input 
-                            id="cvv" 
-                            placeholder="123" 
-                            required 
-                            value={paymentData.cvv}
-                            onChange={(e) => setPaymentData({...paymentData, cvv: e.target.value})}
-                            className="mt-1 bg-secondary border-border w-full text-sm md:text-base" 
-                          />
-                        </div>
-                      </div>
-                      {isPaymentComplete && (
-                        <Button
-                          type="button"
-                          onClick={handlePaymentUpdate}
-                          className="w-full sm:w-auto text-sm md:text-base"
-                        >
-                          <Check className="h-3 w-3 md:h-4 md:w-4 mr-2" />
-                          Save Payment Info
-                        </Button>
-                      )}
+                  {(!isContactComplete || !isShippingComplete) ? (
+                    <div className="p-4 bg-secondary/50 rounded-lg text-sm text-muted-foreground text-center">
+                      Please complete Contact and Shipping Information before proceeding to payment.
                     </div>
                   ) : (
-                    <div className="bg-secondary/50 rounded-lg p-4 space-y-2 w-full overflow-hidden">
-                      <p className="text-xs md:text-sm text-foreground break-words">
-                        <span className="font-medium">Card:</span> •••• •••• •••• {paymentData.cardNumber.slice(-4)}
-                      </p>
-                      <p className="text-xs md:text-sm text-foreground break-words">
-                        <span className="font-medium">Name:</span> {paymentData.cardName}
-                      </p>
-                      <p className="text-xs md:text-sm text-foreground break-words">
-                        <span className="font-medium">Expires:</span> {paymentData.expiry}
-                      </p>
+                    <div className="space-y-4">
+                      <Button
+                        type="button"
+                        onClick={handlePaymentSubmit}
+                        disabled={isProcessing}
+                        className="w-full bg-[#ffc439] hover:bg-[#f4bb33] text-black font-semibold h-12"
+                      >
+                        {isProcessing ? 'Connecting to PayPal...' : 'Pay with PayPal'}
+                      </Button>
                     </div>
                   )}
                 </div>
@@ -479,14 +460,16 @@ const Checkout = () => {
                     </div>
                   </div>
 
-                  <Button 
-                    type="submit" 
-                    className="w-full mt-4 md:mt-6 gradient-primary text-sm md:text-base" 
-                    size="lg"
-                    disabled={isProcessing || !isContactComplete || !isShippingComplete || !isPaymentComplete}
-                  >
-                    {isProcessing ? 'Processing...' : `Pay ${formatPrice(total)}`}
-                  </Button>
+                  {(!isContactComplete || !isShippingComplete) && (
+                    <Button
+                      type="submit"
+                      className="w-full mt-4 md:mt-6 gradient-primary text-sm md:text-base"
+                      size="lg"
+                      disabled={isProcessing || !isContactComplete || !isShippingComplete || !isPaymentComplete}
+                    >
+                      {isProcessing ? 'Processing...' : `Pay ${formatPrice(total)}`}
+                    </Button>
+                  )}
 
                   <div className="mt-3 md:mt-4 flex items-center gap-2 text-xs md:text-sm text-muted-foreground justify-center">
                     <Shield className="h-3 w-3 md:h-4 md:w-4 text-success" />
