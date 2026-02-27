@@ -24,42 +24,46 @@ import SignIn from "./pages/signinpage";
 import SignUp from "./pages/signuppage";
 import ForgotPassword from "./pages/forgotpassword";
 import ReturnItem from "./pages/Returnitem";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentCancel from "./pages/PaymentCancel";
 
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-      <CurrencyProvider>
+    <CurrencyProvider>
       <CartProvider>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-      <ScrolltoTop />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/where-to-buy" element={<WhereToBuy />} />
-          <Route path="/canada" element={<Shop />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/products/:slug" element={<ProductDetail />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/Settings" element={<Settings />} />
-          <Route path="/myorders" element={<MyOrders />} />
-          <Route path="/myorders/:orderId" element={<OrderDetail />} />
-          <Route path="/signin" element={<SignIn/>}/>
-          <Route path="/signup" element={<SignUp/>}/>
-          <Route path="*" element={<NotFound />} />
-          <Route path="/forgot-password" element={<ForgotPassword/>}/>
-          <Route path="/return-item/:orderId" element={<ReturnItem/>}/>
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-    </CartProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <ScrolltoTop />
+            <Routes>
+              <Route path="/" element={<Index />} />
+
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/where-to-buy" element={<WhereToBuy />} />
+              <Route path="/canada" element={<Shop />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/products/:slug" element={<ProductDetail />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/Settings" element={<Settings />} />
+              <Route path="/myorders" element={<MyOrders />} />
+              <Route path="/myorders/:orderId" element={<OrderDetail />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/payment-success" element={<PaymentSuccess />} />
+              <Route path="/payment-cancel" element={<PaymentCancel />} />
+              <Route path="*" element={<NotFound />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/return-item/:orderId" element={<ReturnItem />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </CartProvider>
     </CurrencyProvider>
   </QueryClientProvider>
 );

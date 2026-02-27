@@ -12,6 +12,7 @@ import { useCart } from '@/contexts/CartContext';
 import ProductDescription from '@/components/productdetailpage/ProductDescription';
 import ProductVideoSection from '@/components/productdetailpage/ProductVdieoSection';
 import CustomerReviewsSection from '@/components/productdetailpage/ProdctReviewsection';
+import CheckoutModal from '@/components/CheckoutModal';
 
 const ProductDetail = () => {
     const { slug } = useParams<{ slug: string }>();
@@ -23,6 +24,7 @@ const ProductDetail = () => {
     const [selectedImage, setSelectedImage] = useState(0);
     const [selectedColor, setSelectedColor] = useState('blue');
     const [showMoreDetails, setShowMoreDetails] = useState(false);
+    const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
 
     // Refs for scroll detection
     const aboutSectionRef = useRef<HTMLDivElement>(null);
@@ -345,6 +347,13 @@ const ProductDetail = () => {
                                         )}
                                     </Button>
                                     <Button
+                                        onClick={() => setIsCheckoutModalOpen(true)}
+                                        disabled={!product.inStock}
+                                        className="flex-1 h-12 text-base gap-2 gradient-primary"
+                                    >
+                                        Buy Now
+                                    </Button>
+                                    <Button
                                         variant="outline"
                                         size="icon"
                                         className="h-12 w-12"
@@ -528,6 +537,13 @@ const ProductDetail = () => {
                 reviews={product.reviews}
                 onWriteReview={() => console.log('Write a review clicked')}
                 onLoadMore={() => console.log('Load more clicked')}
+            />
+
+            {/* Checkout Modal */}
+            <CheckoutModal
+                product={product}
+                isOpen={isCheckoutModalOpen}
+                onClose={() => setIsCheckoutModalOpen(false)}
             />
         </Layout>
     );
